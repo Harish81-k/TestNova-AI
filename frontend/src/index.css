@@ -1,0 +1,59 @@
+@import "tailwindcss";
+@plugin "@tailwindcss/typography";
+
+/* Reset root and body for the full-screen chat interface */
+html, body, #root {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  background-color: #343541; /* Default background for ChatGPT */
+}
+
+/* Custom markdown prose styles */
+.prose pre {
+  background-color: #0d0d0d !important;
+  color: #fff;
+  padding: 1rem;
+  border-radius: 0.5rem;
+  overflow-x: auto;
+}
+
+.prose code {
+  background-color: rgba(255, 255, 255, 0.1);
+  padding: 0.2rem 0.4rem;
+  border-radius: 0.25rem;
+  font-size: 0.875em;
+}
+
+.prose pre code {
+  background-color: transparent;
+  padding: 0;
+}
+
+/* Custom 3D Animations */
+@keyframes spin-3d {
+  0% {
+    transform: perspective(400px) rotateY(0deg) rotateX(10deg);
+  }
+  100% {
+    transform: perspective(400px) rotateY(360deg) rotateX(10deg);
+  }
+}
+
+.animate-spin-3d {
+  animation: spin-3d 5s linear infinite;
+  transform-style: preserve-3d;
+}
+
+@keyframes float-3d {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+.animate-float-3d {
+  animation: float-3d 4s ease-in-out infinite;
+}

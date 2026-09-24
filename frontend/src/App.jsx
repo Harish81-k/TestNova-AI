@@ -7,6 +7,8 @@ import AssignmentInterface from './pages/AssignmentInterface';
 import QuizInterface from './pages/QuizInterface';
 import GamingBoardInterface from './pages/GamingBoardInterface';
 import Profile from './pages/Profile';
+import GameHistory from './pages/GameHistory';
+import GameResultDetails from './pages/GameResultDetails';
 import Layout from './components/Layout';
 import ErrorBoundary from './components/ErrorBoundary';
 import axios from 'axios';
@@ -62,16 +64,14 @@ function App() {
 
           {/* Layout Wrapped Routes */}
           <Route path="/" element={
-            token ? (
-              <Layout setToken={setToken}>
-                <ChatInterface />
-              </Layout>
-            ) : <Navigate to="/login" />
+            <Layout setToken={setToken} token={token}>
+              <ChatInterface />
+            </Layout>
           } />
 
           <Route path="/chat/:id" element={
             token ? (
-              <Layout setToken={setToken}>
+              <Layout setToken={setToken} token={token}>
                 <ChatInterface />
               </Layout>
             ) : <Navigate to="/login" />
@@ -79,7 +79,7 @@ function App() {
           
           <Route path="/code" element={
             token ? (
-              <Layout setToken={setToken}>
+              <Layout setToken={setToken} token={token}>
                 <CodingInterface />
               </Layout>
             ) : <Navigate to="/login" />
@@ -87,15 +87,31 @@ function App() {
 
           <Route path="/gaming" element={
             token ? (
-              <Layout setToken={setToken}>
+              <Layout setToken={setToken} token={token}>
                 <GamingBoardInterface />
+              </Layout>
+            ) : <Navigate to="/login" />
+          } />
+
+          <Route path="/gaming/history" element={
+            token ? (
+              <Layout setToken={setToken} token={token}>
+                <GameHistory />
+              </Layout>
+            ) : <Navigate to="/login" />
+          } />
+
+          <Route path="/gaming/history/:id" element={
+            token ? (
+              <Layout setToken={setToken} token={token}>
+                <GameResultDetails />
               </Layout>
             ) : <Navigate to="/login" />
           } />
           
           <Route path="/assignments" element={
             token ? (
-              <Layout setToken={setToken}>
+              <Layout setToken={setToken} token={token}>
                 <AssignmentInterface />
               </Layout>
             ) : <Navigate to="/login" />
@@ -103,7 +119,7 @@ function App() {
 
           <Route path="/assignments/:id" element={
             token ? (
-              <Layout setToken={setToken}>
+              <Layout setToken={setToken} token={token}>
                 <AssignmentInterface />
               </Layout>
             ) : <Navigate to="/login" />
@@ -111,7 +127,7 @@ function App() {
 
           <Route path="/profile" element={
             token ? (
-              <Layout setToken={setToken}>
+              <Layout setToken={setToken} token={token}>
                 <Profile />
               </Layout>
             ) : <Navigate to="/login" />

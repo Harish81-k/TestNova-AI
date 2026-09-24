@@ -149,10 +149,10 @@ Difficulty Guidelines:
 Rules:
 1. Generate EXACTLY 5 coding questions specifically for ${language}.
 2. Provide 'title', 'description', 'input_format', 'output_format', 'constraints', 'stub' (starter code in ${language}), 'sample_input', 'sample_output'.
-CRITICAL: The user will write full executable code. The 'stub' MUST be starter code that sets up reading from standard input and printing to standard output, without the actual solution logic.
+CRITICAL: The 'stub' MUST BE EXTREMELY BARE-BONES. It should ONLY contain the basic main method/function and standard imports for the language. ABSOLUTELY DO NOT parse the problem's specific inputs (e.g., do not read arrays, integers, or graphs). The user must write all input reading and parsing logic themselves. Do NOT provide any solution logic or pseudo-code.
 3. Include an array of 'hidden_tests', each being an object with 'input' and 'output'. Provide exactly 3 hidden tests for each question.
 4. 'test_harness' MUST be an empty string (""). The user's code will be executed directly against standard input.
-5. In the 'stub', include a comment explaining how to read from standard input and print the result.
+5. The 'stub' must be just an empty main method or entry point with a single comment: '// Write your logic here'.
 6. The output must be ONLY a valid JSON array of objects.
 7. HIGH VARIETY REQUIRED: Focus your questions on some of these randomly selected concepts: ${selectedTopics}. Make sure they strictly match the requested '${level}' difficulty.
 8. DO NOT generate standard, overused questions like "FizzBuzz", "Two Sum", or "Reverse String" unless they have a very unique twist. Ensure every generation is distinct from typical examples.
@@ -193,7 +193,20 @@ JSON Format:
       cleanText = cleanText.trim();
 
       const questions = JSON.parse(cleanText);
-      return questions;
+      
+      const barebonesStubs = {
+        python: "# Read from standard input and print the output\nimport sys\n\nif __name__ == '__main__':\n    # Write your logic here\n    pass\n",
+        javascript: "// Read from standard input and print the output\nconst fs = require('fs');\n\nfunction main() {\n    const input = fs.readFileSync('/dev/stdin', 'utf-8').trim();\n    // Write your logic here\n}\n\nmain();\n",
+        java: "import java.util.Scanner;\n\npublic class Main {\n    public static void main(String[] args) {\n        Scanner scanner = new Scanner(System.in);\n        // Write your logic here\n    }\n}\n",
+        cpp: "#include <iostream>\nusing namespace std;\n\nint main() {\n    // Write your logic here\n    return 0;\n}\n"
+      };
+      
+      const defaultStub = barebonesStubs[language.toLowerCase()] || barebonesStubs.python;
+      
+      return questions.map(q => ({
+        ...q,
+        stub: defaultStub
+      }));
     } catch (error) {
       console.error('Coding Questions Generation Error:', error.message);
       if (error.status === 503 || error.status === 429 || (error.message && (error.message.includes("503") || error.message.includes("429")))) {
@@ -300,9 +313,50 @@ const chatMessage = async (history, newMessage, attachments = [], isThinkingMode
   }
 };
 
+const generatePortsData = async () => {
+  const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
+  const model = genAI.getGenerativeModel({ model: 'gemini-2.5-flash' });
+  const randomSeed = Math.floor(Math.random() * 1000000);
+
+  const prompt = `
+Generate EXACTLY 15 network ports and their standard services.
+Mix common ports (like HTTP/80, SSH/22) with more obscure ones to keep the game interesting.
+Random Seed: ${randomSeed}
+
+Output ONLY a valid JSON array of objects.
+Format:
+[
+  { "port": "80", "service": "HTTP" },
+  { "port": "3306", "service": "MySQL" }
+]
+`;
+
+  let retries = 3;
+  let delay = 1000;
+  
+  while (retries > 0) {
+    try {
+      const result = await model.generateContent(prompt);
+      const text = result.response.text();
+      let cleanText = text.trim();
+      if (cleanText.startsWith('\`\`\`json')) cleanText = cleanText.substring(7);
+      else if (cleanText.startsWith('\`\`\`')) cleanText = cleanText.substring(3);
+      if (cleanText.endsWith('\`\`\`')) cleanText = cleanText.substring(0, cleanText.length - 3);
+      cleanText = cleanText.trim();
+      return JSON.parse(cleanText);
+    } catch (error) {
+      retries--;
+      if (retries === 0) return [];
+      await new Promise(res => setTimeout(res, delay));
+      delay *= 2;
+    }
+  }
+};
+
 module.exports = {
   generateQuiz,
   generateCodingQuestions,
   getHint,
-  chatMessage
+  chatMessage,
+  generatePortsData
 };

@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
+import axios from 'axios';
 
 const TECH_TERMS_POOL = [
   { match: 'API', term: 'API', def: 'Application Programming Interface' },
@@ -38,6 +39,7 @@ const MemoryMatch = ({ onBack }) => {
   const [matchedPairs, setMatchedPairs] = useState([]);
   const [moves, setMoves] = useState(0);
   const [isGameOver, setIsGameOver] = useState(false);
+  const startTimeRef = useRef(null);
 
   useEffect(() => {
     initializeGame();
@@ -57,6 +59,7 @@ const MemoryMatch = ({ onBack }) => {
     setMatchedPairs([]);
     setMoves(0);
     setIsGameOver(false);
+    startTimeRef.current = Date.now();
   };
 
   const handleCardClick = (index) => {
@@ -75,7 +78,19 @@ const MemoryMatch = ({ onBack }) => {
         setMatchedPairs((prev) => {
           const newPairs = [...prev, firstCard.match];
           if (newPairs.length === 6) {
-            setTimeout(() => setIsGameOver(true), 500);
+            setTimeout(() => {
+              setIsGameOver(true);
+              const durationSeconds = Math.floor((Date.now() - startTimeRef.current) / 1000);
+              // Save result
+              axios.post('/gaming/result', {
+                gameName: 'Tech Memory Match',
+                score: 100 - (moves * 2), // Example score logic
+                maxScore: 100,
+                level: 'easy',
+                durationSeconds,
+                details: { totalMoves: moves + 1 } // Because moves is updated asynchronously
+              }).catch(err => console.error('Failed to save game result', err));
+            }, 500);
           }
           return newPairs;
         });

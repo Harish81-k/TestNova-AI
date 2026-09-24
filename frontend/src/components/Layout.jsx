@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { NavLink, useNavigate, useLocation } from 'react-router-dom';
 import axios from 'axios';
+import Login from '../pages/Login';
 
-const Layout = ({ children, setToken }) => {
+const Layout = ({ children, setToken, token }) => {
+  const [showLoginModal, setShowLoginModal] = useState(false);
   const [chatHistory, setChatHistory] = useState([]);
   const [assignmentHistory, setAssignmentHistory] = useState([]);
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
@@ -471,7 +473,7 @@ const Layout = ({ children, setToken }) => {
             className={({ isActive }) => `flex items-center gap-3 p-2.5 rounded-lg transition-colors text-[14px] !no-underline ${isActive ? 'bg-[#202123] !text-white font-medium' : 'hover:bg-[#202123] !text-white'}`}
           >
             <svg stroke="white" fill="none" strokeWidth="2" viewBox="0 0 24 24" className="h-5 w-5"><rect x="2" y="6" width="20" height="12" rx="2" ry="2"></rect><path d="M12 12h.01"></path><path d="M17 12h.01"></path><path d="M7 12h.01"></path></svg>
-            <span className="!text-inherit">Dev Arcade</span>
+            <span className="!text-inherit">PlayCore</span>
           </NavLink>
         </div>
 
@@ -540,47 +542,75 @@ const Layout = ({ children, setToken }) => {
         {/* Bottom User Profile */}
         <div className="mt-2 shrink-0 border-t border-white/10 pt-3 relative">
           
-          {/* Dropdown Menu */}
-          {isProfileMenuOpen && (
-            <div className="absolute bottom-full left-0 mb-2 w-full bg-[#202123] rounded-lg border border-white/10 py-1 shadow-xl z-50">
-              <button 
-                className="w-full text-left px-3 py-2.5 text-sm text-gray-200 hover:bg-[#343541] hover:text-white transition-colors flex items-center gap-3"
-                onClick={() => {
-                  setIsProfileMenuOpen(false);
-                  navigate('/profile');
-                }}
-              >
-                <svg stroke="currentColor" fill="none" strokeWidth="2" viewBox="0 0 24 24" strokeLinecap="round" strokeLinejoin="round" className="h-4 w-4"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
-                Profile
-              </button>
-              <div className="h-[1px] bg-white/10 my-1 w-full"></div>
-              <button 
-                className="w-full text-left px-3 py-2.5 text-sm text-red-400 hover:bg-[#343541] hover:text-red-300 transition-colors flex items-center gap-3"
-                onClick={handleLogout}
-              >
-                <svg stroke="currentColor" fill="none" strokeWidth="2" viewBox="0 0 24 24" strokeLinecap="round" strokeLinejoin="round" className="h-4 w-4"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
-                Log out
-              </button>
-            </div>
-          )}
+          {token ? (
+            <>
+              {/* Dropdown Menu */}
+              {isProfileMenuOpen && (
+                <div className="absolute bottom-full left-0 mb-2 w-full bg-[#202123] rounded-lg border border-white/10 py-1 shadow-xl z-50">
+                  <button 
+                    className="w-full text-left px-3 py-2.5 text-sm text-gray-200 hover:bg-[#343541] hover:text-white transition-colors flex items-center gap-3"
+                    onClick={() => {
+                      setIsProfileMenuOpen(false);
+                      navigate('/profile');
+                    }}
+                  >
+                    <svg stroke="currentColor" fill="none" strokeWidth="2" viewBox="0 0 24 24" strokeLinecap="round" strokeLinejoin="round" className="h-4 w-4"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                    Profile
+                  </button>
+                  <div className="h-[1px] bg-white/10 my-1 w-full"></div>
+                  <button 
+                    className="w-full text-left px-3 py-2.5 text-sm text-red-400 hover:bg-[#343541] hover:text-red-300 transition-colors flex items-center gap-3"
+                    onClick={handleLogout}
+                  >
+                    <svg stroke="currentColor" fill="none" strokeWidth="2" viewBox="0 0 24 24" strokeLinecap="round" strokeLinejoin="round" className="h-4 w-4"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
+                    Logout
+                  </button>
+                </div>
+              )}
 
-          <div 
-            className={`flex items-center justify-between p-2 rounded-lg transition-colors cursor-pointer ${isProfileMenuOpen ? 'bg-[#202123]' : 'hover:bg-[#202123]'}`}
-            onClick={() => setIsProfileMenuOpen(!isProfileMenuOpen)}
-          >
-            <div className="flex items-center gap-3 overflow-hidden">
-              <div className="w-8 h-8 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center text-white font-semibold text-sm shadow-[0_0_8px_rgba(59,130,246,0.3)] shrink-0">
-                {getInitials(user.username || user.name)}
+              <div 
+                className={`flex items-center justify-between p-2 rounded-lg transition-colors cursor-pointer ${isProfileMenuOpen ? 'bg-[#202123]' : 'hover:bg-[#202123]'}`}
+                onClick={() => setIsProfileMenuOpen(!isProfileMenuOpen)}
+              >
+                <div className="flex items-center gap-3 overflow-hidden">
+                  <div className="w-8 h-8 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center text-white font-semibold text-sm shadow-[0_0_8px_rgba(59,130,246,0.3)] shrink-0">
+                    {getInitials(user.username || user.name)}
+                  </div>
+                  <div className="flex flex-col overflow-hidden">
+                    <span className="text-[14px] font-semibold text-white truncate">{user.username || user.name || 'User'}</span>
+                    <span className="text-[12px] text-gray-400 truncate">{user.email || 'Free'}</span>
+                  </div>
+                </div>
+                <svg stroke="currentColor" fill="none" strokeWidth="2" viewBox="0 0 24 24" strokeLinecap="round" strokeLinejoin="round" className="h-4 w-4 text-gray-400 shrink-0 ml-2">
+                  <circle cx="12" cy="12" r="1"></circle><circle cx="19" cy="12" r="1"></circle><circle cx="5" cy="12" r="1"></circle>
+                </svg>
               </div>
-              <div className="flex flex-col overflow-hidden">
-                <span className="text-[14px] font-semibold text-white truncate">{user.username || user.name || 'User'}</span>
-                <span className="text-[12px] text-gray-400 truncate">{user.email || 'Free'}</span>
+            </>
+          ) : (
+            <button 
+              onClick={() => setShowLoginModal(true)}
+              className="group relative w-full flex items-center justify-center py-2.5 rounded-xl overflow-hidden transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] shadow-[0_0_20px_rgba(59,130,246,0.15)] hover:shadow-[0_0_25px_rgba(168,85,247,0.3)]"
+            >
+              {/* Premium Gradient Background */}
+              <div className="absolute inset-0 bg-gradient-to-r from-blue-600 via-indigo-500 to-purple-600 opacity-90 group-hover:opacity-100 transition-opacity duration-300"></div>
+              
+              {/* Glassy Inner Border */}
+              <div className="absolute inset-0 border border-white/20 rounded-xl"></div>
+              
+              {/* Shine Animation Effect */}
+              <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-[100%] group-hover:translate-x-[100%] transition-transform duration-700 ease-in-out"></div>
+              
+              {/* Button Content */}
+              <div className="relative z-10 flex items-center gap-2 text-white font-semibold tracking-wide text-[15px]">
+                <svg stroke="currentColor" fill="none" strokeWidth="2.5" viewBox="0 0 24 24" strokeLinecap="round" strokeLinejoin="round" className="h-[18px] w-[18px] transform group-hover:translate-x-1 transition-transform duration-300">
+                  <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"></path>
+                  <polyline points="10 17 15 12 10 7"></polyline>
+                  <line x1="15" y1="12" x2="3" y2="12"></line>
+                </svg>
+                Login
               </div>
-            </div>
-            <svg stroke="currentColor" fill="none" strokeWidth="2" viewBox="0 0 24 24" strokeLinecap="round" strokeLinejoin="round" className="h-4 w-4 text-gray-400 shrink-0 ml-2">
-              <circle cx="12" cy="12" r="1"></circle><circle cx="19" cy="12" r="1"></circle><circle cx="5" cy="12" r="1"></circle>
-            </svg>
-          </div>
+            </button>
+          )}
         </div>
       </div>
       )}
@@ -601,7 +631,11 @@ const Layout = ({ children, setToken }) => {
         {/* Mobile Header */}
         <div className="md:hidden flex items-center justify-between p-4 border-b border-white/10 bg-[#343541]">
           <span className="font-semibold">TestNova AI</span>
-          <button onClick={handleLogout} className="text-sm">Logout</button>
+          {token ? (
+            <button onClick={handleLogout} className="text-sm">Logout</button>
+          ) : (
+            <button onClick={() => setShowLoginModal(true)} className="text-sm text-[#2b6ce6] font-medium">Login</button>
+          )}
         </div>
 
         <div className="flex-1 w-full flex flex-col h-full overflow-hidden">
@@ -614,6 +648,14 @@ const Layout = ({ children, setToken }) => {
           )}
         </div>
       </div>
+      
+      {/* Login Modal Overlay */}
+      {showLoginModal && (
+        <Login setToken={(newToken) => {
+          setToken(newToken);
+          setShowLoginModal(false);
+        }} onClose={() => setShowLoginModal(false)} />
+      )}
     </div>
   );
 };

@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
+import axios from 'axios';
 
 const CSS_QUESTIONS = [
   {
@@ -40,6 +41,7 @@ const CSSSniper = ({ onBack }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [questions, setQuestions] = useState([]);
   const [isGameOver, setIsGameOver] = useState(false);
+  const startTimeRef = useRef(null);
 
   const startGame = () => {
     setQuestions([...CSS_QUESTIONS].sort(() => 0.5 - Math.random()));
@@ -48,6 +50,7 @@ const CSSSniper = ({ onBack }) => {
     setCurrentIndex(0);
     setIsPlaying(true);
     setIsGameOver(false);
+    startTimeRef.current = Date.now();
   };
 
   useEffect(() => {
@@ -57,6 +60,15 @@ const CSSSniper = ({ onBack }) => {
     } else if (timeLeft === 0 && isPlaying) {
       setIsPlaying(false);
       setIsGameOver(true);
+      const durationSeconds = Math.floor((Date.now() - startTimeRef.current) / 1000);
+      axios.post('/gaming/result', {
+        gameName: 'CSS Sniper',
+        score: score,
+        maxScore: null,
+        level: 'medium',
+        durationSeconds,
+        details: { finalTimeLeft: timeLeft }
+      }).catch(err => console.error('Failed to save game result', err));
     }
   }, [isPlaying, timeLeft]);
 

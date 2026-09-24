@@ -176,6 +176,14 @@ const ChatInterface = ({ refreshGlobalHistory }) => {
     
     const newMessages = [...messages, { role: 'user', content: userMessage, attachments: currentAttachments }];
     setMessages(newMessages);
+
+    // Check if user is logged in before proceeding
+    const token = localStorage.getItem('access_token');
+    if (!token) {
+      setMessages([...newMessages, { role: 'model', content: "Please login to ask." }]);
+      return;
+    }
+
     setIsLoading(true);
 
     let activeSessionId = id;
@@ -229,6 +237,13 @@ const ChatInterface = ({ refreshGlobalHistory }) => {
     const existingAttachments = messages[index].attachments || [];
     const newMessages = [...historyUpTo, { role: 'user', content: newText, attachments: existingAttachments }];
     setMessages(newMessages);
+
+    // Check auth
+    const token = localStorage.getItem('access_token');
+    if (!token) {
+      setMessages([...newMessages, { role: 'model', content: "Please login to ask." }]);
+      return;
+    }
 
     let activeSessionId = id;
 
@@ -291,6 +306,14 @@ const ChatInterface = ({ refreshGlobalHistory }) => {
     
     const newMessages = [...historyUpTo, messages[userMsgIndex]];
     setMessages(newMessages);
+
+    // Check auth
+    const token = localStorage.getItem('access_token');
+    if (!token) {
+      setMessages([...newMessages, { role: 'model', content: "Please login to ask." }]);
+      return;
+    }
+
     setIsLoading(true);
 
     let activeSessionId = id;

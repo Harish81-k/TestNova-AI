@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { GoogleLogin } from '@react-oauth/google';
 import axios from 'axios';
 
-export default function Login({ setToken }) {
+export default function Login({ setToken, onClose }) {
   const [error, setError] = useState('');
 
   const handleGoogleSuccess = async (credentialResponse) => {
@@ -13,6 +13,7 @@ export default function Login({ setToken }) {
       });
       localStorage.setItem('user', JSON.stringify(res.data.user));
       setToken(res.data.token);
+      if (onClose) onClose();
     } catch (err) {
       console.error("Google Auth Error:", err.response?.data);
       setError('Google Authentication failed. Please try again.');
@@ -24,20 +25,26 @@ export default function Login({ setToken }) {
   };
 
   return (
-    <div className="flex h-screen w-screen items-center justify-center bg-gradient-to-br from-slate-900 via-gray-900 to-black relative overflow-hidden">
+    <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-gradient-to-br from-slate-900/90 via-gray-900/90 to-black/90 backdrop-blur-md animate-in fade-in duration-300">
       
-      {/* Project Name Top Left */}
-      <div className="absolute top-8 left-8 z-20 flex items-center">
-         <span className="text-xl font-bold tracking-wide text-white">TestNova AI</span>
-      </div>
-
-      {/* Optional: Add some subtle "stars" or background pattern for the night view */}
+      {/* Stars on the full screen backdrop */}
       <div className="absolute inset-0 opacity-20 pointer-events-none" style={{ backgroundImage: 'radial-gradient(circle at 50% 50%, white 1px, transparent 1px)', backgroundSize: '100px 100px' }}></div>
       <div className="absolute inset-0 opacity-10 pointer-events-none" style={{ backgroundImage: 'radial-gradient(circle at 20% 80%, white 2px, transparent 2px)', backgroundSize: '150px 150px' }}></div>
 
-      <div className="relative z-10 flex w-full max-w-6xl mx-auto items-center justify-center px-8">
+      {/* Modal Container without box background */}
+      <div className="relative z-10 flex w-full max-w-lg flex-col items-center justify-center p-10 animate-in zoom-in-95 duration-300">
+
+        {onClose && (
+          <button 
+            onClick={onClose} 
+            className="absolute top-4 right-4 z-20 text-gray-500 hover:text-white transition-colors p-2"
+          >
+            <svg stroke="currentColor" fill="none" strokeWidth="2" viewBox="0 0 24 24" className="w-5 h-5"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+          </button>
+        )}
+
         {/* Right Side: Original Login Content */}
-        <div className="flex w-full max-w-[400px] flex-col items-center p-8 text-center">
+        <div className="relative z-10 flex w-full flex-col items-center text-center">
           {/* TestNova AI Logo Area */}
           <div data-aos="fade-down" className="mb-8 mt-2 animate-float-3d">
             <div className="relative h-16 w-16 animate-spin-3d" style={{ transformStyle: 'preserve-3d' }}>
@@ -56,7 +63,7 @@ export default function Login({ setToken }) {
             </div>
           </div>
 
-          <h1 data-aos="fade-up" data-aos-delay="100" className="mb-3 text-3xl font-bold text-white">Welcome to TestNova AI</h1>
+          <h1 data-aos="fade-up" data-aos-delay="100" className="mb-3 text-3xl font-bold text-white tracking-tight">Welcome to<br/>TestNova AI</h1>
           
           <p data-aos="fade-up" data-aos-delay="200" className="mb-8 text-gray-300">Log in with your Google account to continue</p>
 
@@ -78,7 +85,7 @@ export default function Login({ setToken }) {
             />
           </div>
           
-          <div data-aos="fade-in" data-aos-delay="400" className="mt-8 text-xs text-gray-400">
+          <div data-aos="fade-in" data-aos-delay="400" className="mt-8 text-xs text-gray-400 max-w-[280px]">
             By continuing, you agree to TestNova AI's Terms of Service and Privacy Policy.
           </div>
         </div>

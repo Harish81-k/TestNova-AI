@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import MemoryMatch from '../components/games/MemoryMatch';
 import RapidFireLogic from '../components/games/RapidFireLogic';
 import CodeRacer from '../components/games/CodeRacer';
@@ -258,6 +259,7 @@ const GamingBoardInterface = () => {
   const [filter, setFilter] = useState('all');
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isLightMode, setIsLightMode] = useState(false);
+  const navigate = useNavigate();
 
   const renderGame = () => {
     switch (activeGame) {
@@ -287,7 +289,7 @@ const GamingBoardInterface = () => {
   const ToggleButton = () => (
     <button 
       onClick={() => setIsLightMode(!isLightMode)}
-      className="absolute bottom-8 right-8 md:bottom-12 md:right-12 z-[100] w-12 h-12 rounded-full border border-white/20 flex items-center justify-center hover:bg-white/10 transition-colors backdrop-blur-sm"
+      className="absolute bottom-8 left-8 md:bottom-12 md:left-12 z-[100] w-14 h-14 flex items-center justify-center bg-black hover:bg-gray-800 text-white transition-transform hover:scale-105 rounded-full shadow-[0_4px_20px_rgba(0,0,0,0.3)] border border-gray-700"
       title="Toggle Session Theme"
     >
       {isLightMode ? (
@@ -322,20 +324,23 @@ const GamingBoardInterface = () => {
 
   return (
     <div 
-      className="flex-1 flex w-full h-full bg-black text-white overflow-hidden relative font-sans selection:bg-white/20 transition-all duration-700"
+      className="flex-1 flex w-full h-full bg-[#0a0a0f] text-white overflow-hidden relative font-sans selection:bg-white/20 transition-all duration-700"
       style={{ filter: isLightMode ? 'invert(1) hue-rotate(180deg)' : 'none' }}
     >
+      {/* Aesthetic glowing background orbs */}
+      <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-blue-600/20 rounded-full blur-[120px] pointer-events-none mix-blend-screen"></div>
+      <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-purple-600/20 rounded-full blur-[120px] pointer-events-none mix-blend-screen"></div>
       <ToggleButton />
       
       {/* Background massive watermark of the current index */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-[40vw] font-black leading-none opacity-[0.02] pointer-events-none select-none tracking-tighter">
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-[40vw] font-black leading-none text-white/5 pointer-events-none select-none tracking-tighter mix-blend-overlay">
         {(currentIndex + 1).toString().padStart(2, '0')}
       </div>
 
       {/* Top Filter Bar */}
-      <div className="absolute top-0 left-0 w-full p-8 md:p-12 flex justify-between items-center z-20">
+      <div className="absolute top-0 left-0 w-full p-8 md:p-12 flex flex-col md:flex-row justify-between items-start md:items-center z-50 gap-4">
         <h1 className="text-xl md:text-2xl font-bold tracking-tighter">Modules</h1>
-        <div className="flex gap-4 md:gap-8">
+        <div className="flex gap-4 md:gap-8 items-center">
           {['all', 'easy', 'medium', 'hard'].map(level => (
             <button
               key={level}
@@ -343,13 +348,21 @@ const GamingBoardInterface = () => {
                 setFilter(level);
                 setCurrentIndex(0);
               }}
-              className={`text-xs uppercase tracking-[0.2em] font-bold transition-all ${
+              className={`text-[10px] md:text-xs uppercase tracking-[0.2em] font-bold transition-all ${
                 filter === level ? 'text-white border-b-2 border-white' : 'text-gray-600 hover:text-white'
               }`}
             >
               {level}
             </button>
           ))}
+          <div className="w-px h-4 bg-white/20 mx-2"></div>
+          <button
+            onClick={() => navigate('/gaming/history')}
+            className="text-[10px] md:text-xs uppercase tracking-[0.2em] font-bold text-gray-400 hover:text-blue-400 transition-colors flex items-center gap-2"
+          >
+            History
+            <svg stroke="currentColor" fill="none" strokeWidth="2" viewBox="0 0 24 24" className="w-4 h-4"><polyline points="9 18 15 12 9 6"></polyline></svg>
+          </button>
         </div>
       </div>
 
@@ -370,37 +383,36 @@ const GamingBoardInterface = () => {
           className="animate-in fade-in zoom-in duration-700 flex flex-col items-center"
         >
           {/* Difficulty Badge */}
-          <div className="mb-8 text-[10px] uppercase tracking-[0.4em] font-bold flex items-center gap-3">
-            <span className={`w-1.5 h-1.5 rounded-full ${
-              currentGame.difficulty === 'easy' ? 'bg-green-500' :
-              currentGame.difficulty === 'medium' ? 'bg-orange-500' : 'bg-red-500'
+          <div className={`mb-8 text-[10px] uppercase tracking-[0.4em] font-bold flex items-center gap-2 px-4 py-1.5 rounded-full border backdrop-blur-md ${
+            currentGame.difficulty === 'easy' ? 'bg-green-500/10 border-green-500/30 text-green-400' :
+            currentGame.difficulty === 'medium' ? 'bg-orange-500/10 border-orange-500/30 text-orange-400' : 'bg-red-500/10 border-red-500/30 text-red-400'
+          }`}>
+            <span className={`w-2 h-2 rounded-full shadow-[0_0_8px_currentColor] ${
+              currentGame.difficulty === 'easy' ? 'bg-green-400' :
+              currentGame.difficulty === 'medium' ? 'bg-orange-400' : 'bg-red-400'
             }`}></span>
             {currentGame.difficulty}
           </div>
 
           {/* Title */}
-          <h2 className="text-6xl md:text-8xl lg:text-[120px] font-black tracking-tighter leading-none mb-8 hover:scale-105 transition-transform duration-500 cursor-default">
+          <h2 className="text-6xl md:text-8xl lg:text-[120px] font-black tracking-tighter leading-none mb-8 hover:scale-105 transition-transform duration-500 cursor-default bg-clip-text text-transparent bg-gradient-to-br from-white via-white to-gray-500 drop-shadow-lg text-center">
             {currentGame.title}
           </h2>
 
           {/* Description */}
-          <p className="max-w-xl text-gray-400 text-sm md:text-base tracking-wide leading-relaxed mb-12">
+          <p className="max-w-xl text-gray-300 text-sm md:text-base tracking-wide leading-relaxed mb-12 drop-shadow-md">
             {currentGame.description}
           </p>
 
           {/* Play Button */}
           <button 
             onClick={() => setActiveGame(currentGame.id)}
-            className="group px-12 py-5 rounded-full border border-white/20 hover:border-white transition-all duration-500 hover:shadow-[0_0_30px_rgba(255,255,255,0.15)]"
-            style={{ 
-              background: 'linear-gradient(to top, white 50%, transparent 50%)',
-              backgroundSize: '100% 200%',
-              backgroundPosition: 'top left',
-            }}
-            onMouseEnter={(e) => e.currentTarget.style.backgroundPosition = 'bottom left'}
-            onMouseLeave={(e) => e.currentTarget.style.backgroundPosition = 'top left'}
+            className="group relative px-12 py-5 rounded-full border border-white/20 bg-white/5 backdrop-blur-md overflow-hidden transition-all duration-500 hover:border-white/50 hover:bg-white/10 hover:shadow-[0_0_40px_rgba(255,255,255,0.15)]"
           >
-            <span className="relative z-10 text-xs font-bold tracking-[0.3em] uppercase text-white group-hover:text-black transition-colors duration-500 flex items-center gap-4">
+            {/* Glossy overlay effect */}
+            <div className="absolute inset-0 w-full h-full bg-gradient-to-b from-white/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+            
+            <span className="relative z-10 text-xs font-bold tracking-[0.3em] uppercase text-white group-hover:text-blue-100 transition-colors duration-500 flex items-center gap-4">
               Initialize Module
               <svg stroke="currentColor" fill="none" strokeWidth="2" viewBox="0 0 24 24" className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-500 ease-out"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
             </span>

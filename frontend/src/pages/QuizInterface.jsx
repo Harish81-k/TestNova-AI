@@ -16,6 +16,7 @@ const QuizInterface = () => {
   const [results, setResults] = useState(null);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
+  const [timeLeft, setTimeLeft] = useState(10 * 60);
 
   useEffect(() => {
     // Load quiz from localStorage
@@ -33,6 +34,28 @@ const QuizInterface = () => {
       setStep('error');
     }
   }, [quizId]);
+
+  useEffect(() => {
+    if (step === 'quiz' && quiz.length > 0 && !isLoading) {
+      const timer = setInterval(() => {
+        setTimeLeft((prev) => Math.max(0, prev - 1));
+      }, 1000);
+      return () => clearInterval(timer);
+    }
+  }, [step, quiz.length, isLoading]);
+
+  useEffect(() => {
+    if (timeLeft === 0 && step === 'quiz' && !isLoading) {
+      handleSubmit();
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [timeLeft, step, isLoading]);
+
+  const formatTime = (seconds) => {
+    const m = Math.floor(seconds / 60);
+    const s = seconds % 60;
+    return `${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
+  };
 
   const handleOptionChange = (questionIndex, option) => {
     setAnswers(prev => ({
@@ -118,7 +141,7 @@ const QuizInterface = () => {
               {topic} — EVALUATION SESSION
             </div>
             <div className="flex items-center gap-6 text-xs font-bold tracking-widest text-slate-500 uppercase">
-              <span>TIME LEFT // 09:54</span>
+              <span className={timeLeft < 60 ? 'text-red-500 animate-pulse' : ''}>TIME LEFT // {formatTime(timeLeft)}</span>
               <span>PROTOCOL NODE // LIVE</span>
             </div>
           </div>

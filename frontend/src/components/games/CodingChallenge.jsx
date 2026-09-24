@@ -9,6 +9,7 @@ const CodingChallenge = ({ difficulty = 'advanced', onBack }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [questions, setQuestions] = useState([]);
   const [isGameOver, setIsGameOver] = useState(false);
+  const [questionScores, setQuestionScores] = useState([]);
   
   const [selectedLanguage, setSelectedLanguage] = useState('python');
   const [isGenerating, setIsGenerating] = useState(false);
@@ -39,6 +40,7 @@ const CodingChallenge = ({ difficulty = 'advanced', onBack }) => {
       }
 
       setQuestions(generatedQuestions);
+      setQuestionScores(new Array(generatedQuestions.length).fill(0));
       setScore(0);
       setTimeLeft(difficulty === 'basic' ? 1800 : difficulty === 'intermediate' ? 2700 : 3600);
       setCurrentIndex(0);
@@ -65,6 +67,25 @@ const CodingChallenge = ({ difficulty = 'advanced', onBack }) => {
       setIsGameOver(true);
     }
   }, [isPlaying, timeLeft]);
+
+  useEffect(() => {
+    if (isGameOver && questions.length > 0) {
+      const saveResult = async () => {
+        try {
+          await axios.post('/coding/submit/', {
+            scores: questionScores,
+            questions: questions,
+            difficulty: difficulty
+          }, {
+            headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
+          });
+        } catch (e) {
+          console.error("Failed to save coding result", e);
+        }
+      };
+      saveResult();
+    }
+  }, [isGameOver]);
 
   const handleRun = async () => {
     const currentQ = questions[currentIndex];
@@ -151,6 +172,11 @@ const CodingChallenge = ({ difficulty = 'advanced', onBack }) => {
       if (allPassed) {
         setConsoleOutput({ type: 'success', message: 'All hidden test cases passed! +50 pts' });
         setScore(s => s + 50);
+        setQuestionScores(prev => {
+          const newScores = [...prev];
+          newScores[currentIndex] = 50;
+          return newScores;
+        });
         
         setTimeout(() => {
           if (currentIndex + 1 < questions.length) {
@@ -465,8 +491,9 @@ const CodingChallenge = ({ difficulty = 'advanced', onBack }) => {
                 </button>
                 <button 
                   onClick={() => {
-                    if (window.confirm("Are you sure you want to terminate the session? Your progress will be lost.")) {
-                      onBack();
+                    if (window.confirm("Are you sure you want to terminate the session early?")) {
+                      setIsPlaying(false);
+                      setIsGameOver(true);
                     }
                   }}
                   className="px-6 py-2.5 rounded bg-red-500 hover:bg-red-600 text-white font-bold text-sm transition-colors shadow ml-4"

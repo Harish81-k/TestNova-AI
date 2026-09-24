@@ -18,24 +18,24 @@ const submitCodingQuiz = async (req, res) => {
     const { scores = [], questions: quiz = [], difficulty = "medium" } = req.body;
 
     const total_questions = quiz.length;
-    const max_possible_score = total_questions * 20;
+    const max_possible_score = total_questions * 50;
     const total_score = scores.reduce((a, b) => a + b, 0);
     
-    const percentage = max_possible_score ? Math.round((total_score / max_possible_score) * 100 * 100) / 100 : 0;
+    const percentage = max_possible_score > 0 ? Math.round((total_score / max_possible_score) * 100 * 100) / 100 : 0;
     
     const results = [];
     quiz.forEach((q, idx) => {
       const q_score = idx < scores.length ? scores[idx] : 0;
       results.push({
         question: q.title || `Question ${idx + 1}`,
-        user_answer: `Score: ${q_score} / 20`,
-        correct_answer: "Expected: 20 / 20",
-        is_correct: q_score === 20
+        user_answer: `Score: ${q_score} / 50`,
+        correct_answer: "Expected: 50 / 50",
+        is_correct: q_score === 50
       });
     });
         
-    const score_count = scores.filter(s => s === 20).length;
-    const wrong = scores.filter(s => s > 0 && s < 20).length;
+    const score_count = scores.filter(s => s === 50).length;
+    const wrong = scores.filter(s => s > 0 && s < 50).length;
     const unattempted = scores.filter(s => s === 0).length;
     
     const grade = percentage >= 90 ? "Excellent" : percentage >= 70 ? "Good" : percentage >= 50 ? "Fair" : "Needs Improvement";

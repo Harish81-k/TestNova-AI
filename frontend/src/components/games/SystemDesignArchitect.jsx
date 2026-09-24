@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
+import axios from 'axios';
 
 const SCENARIOS = [
   {
@@ -34,6 +35,7 @@ const SystemDesignArchitect = ({ onBack }) => {
   const [isGameOver, setIsGameOver] = useState(false);
   const [feedback, setFeedback] = useState(null);
   const [timeLeft, setTimeLeft] = useState(300);
+  const startTimeRef = useRef(Date.now());
 
   const scenario = SCENARIOS[currentScenario];
 
@@ -43,6 +45,15 @@ const SystemDesignArchitect = ({ onBack }) => {
       return () => clearInterval(timer);
     } else if (timeLeft === 0 && !isGameOver) {
       setIsGameOver(true);
+      const durationSeconds = Math.floor((Date.now() - startTimeRef.current) / 1000);
+      axios.post('/gaming/result', {
+        gameName: 'System Design Architect',
+        score: score,
+        maxScore: SCENARIOS.length * 500,
+        level: 'hard',
+        durationSeconds,
+        details: { scenariosCompleted: currentScenario, reason: 'Time ran out' }
+      }).catch(err => console.error('Failed to save game result', err));
     }
   }, [timeLeft, isGameOver]);
 
@@ -81,6 +92,15 @@ const SystemDesignArchitect = ({ onBack }) => {
           setCurrentScenario(curr => curr + 1);
         } else {
           setIsGameOver(true);
+          const durationSeconds = Math.floor((Date.now() - startTimeRef.current) / 1000);
+          axios.post('/gaming/result', {
+            gameName: 'System Design Architect',
+            score: score + 500, // Include the score from this final round
+            maxScore: SCENARIOS.length * 500,
+            level: 'hard',
+            durationSeconds,
+            details: { scenariosCompleted: currentScenario + 1, reason: 'All scenarios completed' }
+          }).catch(err => console.error('Failed to save game result', err));
         }
       }, 2000);
     } else {
@@ -233,7 +253,7 @@ const SystemDesignArchitect = ({ onBack }) => {
           <div className="text-[10px] tracking-[1em] text-gray-500 uppercase font-bold mb-6 mr-2">Final Evaluation</div>
           <div className="text-7xl md:text-9xl font-black tracking-tighter leading-none mb-12 text-white">{score}</div>
           
-          <button onClick={() => { setCurrentScenario(0); setScore(0); setTimeLeft(300); setIsGameOver(false); }} className="group relative overflow-hidden inline-flex items-center gap-6 text-xs font-bold tracking-[0.3em] uppercase text-white hover:text-gray-300 transition-all w-fit">
+          <button onClick={() => { setCurrentScenario(0); setScore(0); setTimeLeft(300); setIsGameOver(false); startTimeRef.current = Date.now(); }} className="group relative overflow-hidden inline-flex items-center gap-6 text-xs font-bold tracking-[0.3em] uppercase text-white hover:text-gray-300 transition-all w-fit">
             <span className="w-16 h-[1px] bg-white group-hover:w-32 transition-all duration-700 ease-out"></span>
             Restart Simulation
           </button>

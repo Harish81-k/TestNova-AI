@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
+import axios from 'axios';
 
 const QUESTIONS = [
   { q: "What comes next: 2, 4, 8, 16, ?", a: "32", options: ["24", "32", "64", "20"] },
@@ -20,6 +21,7 @@ const RapidFireLogic = ({ onBack }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isGameOver, setIsGameOver] = useState(false);
   const [questions, setQuestions] = useState([]);
+  const startTimeRef = useRef(null);
 
   useEffect(() => {
     if (isPlaying && timeLeft > 0) {
@@ -38,11 +40,21 @@ const RapidFireLogic = ({ onBack }) => {
     setCurrentIndex(0);
     setIsPlaying(true);
     setIsGameOver(false);
+    startTimeRef.current = Date.now();
   };
 
   const endGame = () => {
     setIsPlaying(false);
     setIsGameOver(true);
+    const durationSeconds = Math.floor((Date.now() - startTimeRef.current) / 1000);
+    axios.post('/gaming/result', {
+      gameName: 'Rapid Fire Logic',
+      score: score,
+      maxScore: null,
+      level: 'medium',
+      durationSeconds,
+      details: { questionsAnswered: currentIndex }
+    }).catch(err => console.error('Failed to save game result', err));
   };
 
   const handleAnswer = (selected) => {

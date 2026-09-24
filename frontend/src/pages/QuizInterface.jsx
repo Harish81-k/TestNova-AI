@@ -237,7 +237,14 @@ const QuizInterface = () => {
 
           {/* Bottom Bar */}
           <div className="flex justify-between items-center border-t border-gray-200 bg-white shrink-0">
-            <button onClick={closeWindow} className="px-8 md:px-12 py-6 text-red-600 hover:bg-red-50 font-bold tracking-widest text-xs uppercase transition-colors h-full border-r border-gray-200">
+            <button 
+              onClick={() => {
+                if (window.confirm('Are you sure you want to terminate the session early? Your current progress will be evaluated.')) {
+                  handleSubmit();
+                }
+              }} 
+              className="px-8 md:px-12 py-6 text-red-600 hover:bg-red-50 font-bold tracking-widest text-xs uppercase transition-colors h-full border-r border-gray-200"
+            >
               TERMINATE SESSION
             </button>
             <div className="flex h-full">

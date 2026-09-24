@@ -46,7 +46,7 @@ JSON Format (If no code is needed):
 JSON Format (If code is needed, MUST INCLUDE CODE IN THE QUESTION STRING):
 [
   {
-    "question": "What is the output of the following Python code?\\n```python\\nprint('Hello World')\\n```",
+    "question": "What is the output of the following Python code?\\n\\`\\`\\`python\\nprint('Hello World')\\n\\`\\`\\`",
     "options": ["Hello World", "Error", "Nothing", "Hello"],
     "answer": "Hello World",
     "explanation": "The print function outputs the string to the console."

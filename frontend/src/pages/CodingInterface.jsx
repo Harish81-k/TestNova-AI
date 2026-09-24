@@ -49,9 +49,9 @@ const CodingInterface = () => {
     window.addEventListener('resize', handleResize);
 
     // Initialize Socket.io
-    const backendUrl = window.location.hostname === 'localhost' 
-      ? 'http://localhost:5000' 
-      : 'http://' + window.location.hostname + ':5000'; // Fallback if deployed elsewhere
+    const backendUrl = import.meta.env.VITE_API_URL 
+      ? import.meta.env.VITE_API_URL.replace(/\/api\/?$/, '') 
+      : 'http://localhost:5000';
       
     const socket = io(backendUrl);
     socketRef.current = socket;

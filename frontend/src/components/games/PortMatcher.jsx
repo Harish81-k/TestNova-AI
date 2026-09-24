@@ -46,7 +46,7 @@ const PortMatcher = ({ onBack }) => {
     setIsLoading(true);
     let data = [];
     try {
-      const res = await axios.get('http://localhost:5000/api/gaming/generate/ports', {
+      const res = await axios.get('/gaming/generate/ports', {
         headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
       });
       data = res.data && res.data.length >= 4 ? res.data : DEFAULT_PORT_DATA;

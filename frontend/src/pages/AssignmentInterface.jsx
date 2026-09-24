@@ -249,15 +249,15 @@ const AssignmentInterface = ({ refreshGlobalHistory }) => {
                     components={{
                       a: ({node, ...props}) => <a {...props} target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline" />,
                       pre({node, children, ...props}) {
-                        return <div className="bg-[#f4f1ea] p-6 rounded my-6 border border-[#e8e4db] overflow-x-auto text-sm font-mono text-slate-700"><pre {...props} style={{ margin: 0, padding: 0, background: 'transparent', border: 'none' }}>{children}</pre></div>;
+                        return <div className="bg-[#f4f1ea] p-6 rounded my-6 border border-[#e8e4db] overflow-x-auto text-sm font-mono text-slate-700 whitespace-pre" {...props}>{children}</div>;
                       },
                       code({node, className, children, ...props}) {
                         const match = /language-(\w+)/.exec(className || '');
                         const isBlock = match || (node?.parent?.tagName === 'pre');
                         return isBlock ? (
-                          <code className={className} {...props}>{children}</code>
+                          <span className={className} {...props}>{children}</span>
                         ) : (
-                          <code className="bg-[#f4f1ea] px-1.5 py-0.5 rounded border border-[#e8e4db] font-mono text-slate-700" {...props}>{children}</code>
+                          <span className="bg-[#f4f1ea] px-1.5 py-0.5 rounded border border-[#e8e4db] font-mono text-slate-700" {...props}>{children}</span>
                         )
                       }
                     }}

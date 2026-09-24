@@ -30,7 +30,7 @@ Rules:
 5. Avoid duplicate questions. ENSURE HIGH VARIETY from typical examples.
 6. Incorrect options should be realistic.
 7. Provide a concise explanation for why the answer is correct.
-8. If a question contains code, wrap the code snippet in HTML <pre><code> tags instead of markdown.
+8. If a question contains code, wrap the code snippet in standard markdown code blocks (using triple backticks) with the correct language identifier.
 9. Output ONLY a valid JSON array of objects.
 
 JSON Format (If no code is needed):
@@ -46,7 +46,7 @@ JSON Format (If no code is needed):
 JSON Format (If code is needed, MUST INCLUDE CODE IN THE QUESTION STRING):
 [
   {
-    "question": "What is the output of the following Python code?\n<pre><code>print('Hello World')</code></pre>",
+    "question": "What is the output of the following Python code?\\n```python\\nprint('Hello World')\\n```",
     "options": ["Hello World", "Error", "Nothing", "Hello"],
     "answer": "Hello World",
     "explanation": "The print function outputs the string to the console."
@@ -85,13 +85,7 @@ Include a balanced mix of:
       for (let q of questions) {
         if (q.question && q.options && q.options.length === 4 && q.answer && q.explanation) {
           let qText = q.question;
-          const parts = qText.split(/(<pre><code>.*?<\/code><\/pre>)/s);
-          for (let i = 0; i < parts.length; i++) {
-            if (!parts[i].startsWith('<pre>')) {
-              parts[i] = parts[i].replace(/\n/g, '<br>');
-            }
-          }
-          q.question = parts.join('');
+          q.question = qText;
           validQuestions.push(q);
         }
       }

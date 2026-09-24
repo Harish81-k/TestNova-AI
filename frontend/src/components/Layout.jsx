@@ -412,9 +412,14 @@ const Layout = ({ children, setToken, token }) => {
 
   return (
     <div className="flex h-screen bg-[#343541] text-[#ececf1] font-sans">
+      {/* Mobile Overlay */}
+      {isSidebarOpen && (
+        <div className="md:hidden fixed inset-0 bg-black/50 z-40" onClick={toggleSidebar}></div>
+      )}
+
       {/* Sidebar */}
       {isSidebarOpen && (
-        <div className="w-[260px] bg-black flex flex-col p-3 hidden md:flex font-sans transition-all duration-300 shrink-0">
+        <div className="fixed md:relative z-50 w-[260px] h-full bg-black flex flex-col p-3 font-sans transition-all duration-300 shrink-0 shadow-2xl md:shadow-none">
           
           {/* Top Header / Logo */}
           <div className="flex items-center justify-between px-2 py-3 mb-2">
@@ -630,7 +635,14 @@ const Layout = ({ children, setToken, token }) => {
 
         {/* Mobile Header */}
         <div className="md:hidden flex items-center justify-between p-4 border-b border-white/10 bg-[#343541]">
-          <span className="font-semibold">TestNova AI</span>
+          <div className="flex items-center gap-3">
+            <svg onClick={toggleSidebar} stroke="currentColor" fill="none" strokeWidth="2" viewBox="0 0 24 24" strokeLinecap="round" strokeLinejoin="round" className="h-6 w-6 text-white cursor-pointer">
+              <line x1="3" y1="12" x2="21" y2="12"></line>
+              <line x1="3" y1="6" x2="21" y2="6"></line>
+              <line x1="3" y1="18" x2="21" y2="18"></line>
+            </svg>
+            <span className="font-semibold text-white text-lg">TestNova AI</span>
+          </div>
           {token ? (
             <button onClick={handleLogout} className="text-sm">Logout</button>
           ) : (

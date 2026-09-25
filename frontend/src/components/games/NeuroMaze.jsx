@@ -63,10 +63,10 @@ const NeuroMaze = ({ onBack }) => {
     try {
       const token = localStorage.getItem('access_token');
       if (token) {
-        await axios.post('/gaming/save', {
-          game: 'NeuroMaze',
+        await axios.post('/gaming/result', {
+          gameName: 'NeuroMaze',
           score,
-          timeSpent: 60 - timeLeft,
+          durationSeconds: 60 - timeLeft,
           level: 'hard'
         }, {
           headers: { Authorization: `Bearer ${token}` }

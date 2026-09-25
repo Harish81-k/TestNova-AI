@@ -73,10 +73,10 @@ const MindBender = ({ onBack }) => {
     try {
       const token = localStorage.getItem('access_token');
       if (token) {
-        await axios.post('/gaming/save', {
-          game: 'MindBender',
+        await axios.post('/gaming/result', {
+          gameName: 'MindBender',
           score,
-          timeSpent: score * 5, // rough estimate
+          durationSeconds: score * 5, // rough estimate
           details: { roundsCompleted: score }
         }, {
           headers: { Authorization: `Bearer ${token}` }

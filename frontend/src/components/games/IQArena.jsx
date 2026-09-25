@@ -82,10 +82,10 @@ const IQArena = ({ onBack }) => {
     try {
       const token = localStorage.getItem('access_token');
       if (token) {
-        await axios.post('/gaming/save', {
-          game: 'IQ Arena',
+        await axios.post('/gaming/result', {
+          gameName: 'IQ Arena',
           score,
-          timeSpent: 60 - timeLeft,
+          durationSeconds: 60 - timeLeft,
           level: 'medium'
         }, {
           headers: { Authorization: `Bearer ${token}` }

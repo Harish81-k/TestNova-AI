@@ -98,10 +98,10 @@ const CodeAndClues = ({ onBack }) => {
     try {
       const token = localStorage.getItem('access_token');
       if (token) {
-        await axios.post('/gaming/save', {
-          game: 'Code & Clues',
+        await axios.post('/gaming/result', {
+          gameName: 'Code & Clues',
           score,
-          timeSpent: 90 - timeLeft,
+          durationSeconds: 90 - timeLeft,
           level: 'medium'
         }, {
           headers: { Authorization: `Bearer ${token}` }

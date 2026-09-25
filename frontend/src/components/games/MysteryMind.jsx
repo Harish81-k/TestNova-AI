@@ -77,10 +77,10 @@ const MysteryMind = ({ onBack }) => {
     try {
       const token = localStorage.getItem('access_token');
       if (token) {
-        await axios.post('/gaming/save', {
-          game: 'MysteryMind',
+        await axios.post('/gaming/result', {
+          gameName: 'MysteryMind',
           score,
-          timeSpent: 120 - timeLeft,
+          durationSeconds: 120 - timeLeft,
           level: 'hard'
         }, {
           headers: { Authorization: `Bearer ${token}` }

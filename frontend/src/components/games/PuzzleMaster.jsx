@@ -82,10 +82,10 @@ const PuzzleMaster = ({ onBack }) => {
     try {
       const token = localStorage.getItem('access_token');
       if (token) {
-        await axios.post('/gaming/save', {
-          game: 'PuzzleMaster',
+        await axios.post('/gaming/result', {
+          gameName: 'PuzzleMaster',
           score,
-          timeSpent: 60 - timeLeft,
+          durationSeconds: 60 - timeLeft,
           level: 'hard'
         }, {
           headers: { Authorization: `Bearer ${token}` }

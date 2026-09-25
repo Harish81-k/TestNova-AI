@@ -469,7 +469,15 @@ const ChatInterface = ({ refreshGlobalHistory }) => {
         <div className="flex items-center gap-1 flex-shrink-0">
           <button 
             type="button" 
-            onClick={() => setIsThinkingMode(!isThinkingMode)}
+            onClick={() => {
+              const userStr = localStorage.getItem('user');
+              const user = userStr ? JSON.parse(userStr) : null;
+              if (user && user.planType === 'Free Plan') {
+                alert('Advanced reasoning (Thinking Mode) is only available on Pro and Enterprise plans. Please upgrade your plan.');
+                return;
+              }
+              setIsThinkingMode(!isThinkingMode);
+            }}
             className={`hidden sm:flex items-center gap-2 px-3 py-1.5 !rounded-full appearance-none transition-colors text-sm font-medium ${isThinkingMode ? 'text-blue-400 bg-blue-500/10 border border-blue-500/20' : 'text-gray-400 hover:text-white hover:bg-white/5 border border-transparent'}`}
           >
             {/* Brain/Think Icon */}

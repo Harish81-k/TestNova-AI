@@ -15,6 +15,8 @@ const Layout = ({ children, setToken, token }) => {
   const [menuPos, setMenuPos] = useState({ top: 0, left: 0, bottom: 0, useBottom: false });
   const [editingId, setEditingId] = useState(null);
   const [editTitle, setEditTitle] = useState('');
+  const [showHackerEasterEgg, setShowHackerEasterEgg] = useState(false);
+  const [hackerLogs, setHackerLogs] = useState([]);
   const [user] = useState(() => {
     const saved = localStorage.getItem('user');
     return saved ? JSON.parse(saved) : { name: 'User' };
@@ -46,6 +48,44 @@ const Layout = ({ children, setToken, token }) => {
       console.error('Failed to fetch histories:', error);
     }
   };
+
+  useEffect(() => {
+    let keySequence = '';
+    const secretCode = 'hacker';
+    
+    const handleKeyDown = (e) => {
+      keySequence += e.key.toLowerCase();
+      if (keySequence.length > secretCode.length) {
+        keySequence = keySequence.substring(keySequence.length - secretCode.length);
+      }
+      if (keySequence === secretCode) {
+        setShowHackerEasterEgg(true);
+        keySequence = '';
+        
+        const logs = [
+          "INITIATING SECURE OVERRIDE...",
+          "BYPASSING MAINFRAME FIREWALLS...",
+          "ACCESSING NEURAL NET WEIGHTS...",
+          "DOWNLOADING PROPRIETARY ARCHITECTURE...",
+          "DECRYPTING ADMIN CREDENTIALS...",
+          "SYSTEM COMPROMISED. FULL ACCESS GRANTED."
+        ];
+        let i = 0;
+        setHackerLogs([]);
+        const interval = setInterval(() => {
+          if (i < logs.length) {
+            setHackerLogs(prev => [...prev, logs[i]]);
+            i++;
+          } else {
+            clearInterval(interval);
+          }
+        }, 800);
+      }
+    };
+    
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, []);
 
   useEffect(() => {
     fetchGlobalHistory();
@@ -677,6 +717,20 @@ const Layout = ({ children, setToken, token }) => {
           setToken(newToken);
           setShowLoginModal(false);
         }} onClose={() => setShowLoginModal(false)} />
+      )}
+
+      {/* Hacker Easter Egg */}
+      {showHackerEasterEgg && (
+        <div className="fixed inset-0 z-[10000] bg-black font-mono text-green-500 p-8 overflow-hidden flex flex-col cursor-pointer" onClick={() => setShowHackerEasterEgg(false)}>
+          <div className="absolute top-4 right-4 text-green-700 text-xs uppercase tracking-widest">Click anywhere to terminate</div>
+          <div className="flex-1 w-full flex flex-col justify-end">
+            {hackerLogs.map((log, index) => (
+              <div key={index} className={`text-xl md:text-2xl mb-4 font-bold ${index === hackerLogs.length - 1 ? 'animate-pulse' : ''}`}>
+                &gt; {log}
+              </div>
+            ))}
+          </div>
+        </div>
       )}
     </div>
   );

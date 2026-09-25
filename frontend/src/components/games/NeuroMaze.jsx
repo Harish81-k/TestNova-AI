@@ -38,6 +38,12 @@ const NeuroMaze = ({ onBack }) => {
   }, [isPlaying, timeLeft, gameOver]);
 
   const startGame = () => {
+    const userStr = localStorage.getItem('user');
+    const user = userStr ? JSON.parse(userStr) : null;
+    if (user && user.planType === 'Free Plan') {
+      alert('NeuroMaze is a premium module available only on Pro and Enterprise plans. Please upgrade your plan.');
+      return;
+    }
     setScore(0);
     setTimeLeft(60);
     setGameOver(false);

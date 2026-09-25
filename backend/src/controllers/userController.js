@@ -26,8 +26,7 @@ const updateUserProfile = async (req, res) => {
       console.log('Received profilePic length:', req.body.profilePic ? req.body.profilePic.length : 0);
       user.profilePic = req.body.profilePic !== undefined ? req.body.profilePic : user.profilePic;
       
-      // We only allow plan updates from admin APIs typically, but for now we won't let users update planType here.
-      
+      user.planType = req.body.planType || user.planType;
       if (req.body.password) {
         user.password = req.body.password;
       }

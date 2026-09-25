@@ -17,8 +17,96 @@ import CodingChallenge from '../components/games/CodingChallenge';
 import SystemDesignArchitect from '../components/games/SystemDesignArchitect';
 import CryptographyBreaker from '../components/games/CryptographyBreaker';
 import VimNinja from '../components/games/VimNinja';
+import MindBender from '../components/games/MindBender';
+import PuzzleMaster from '../components/games/PuzzleMaster';
+import CodeAndClues from '../components/games/CodeAndClues';
+import NeuroMaze from '../components/games/NeuroMaze';
+import MysteryMind from '../components/games/MysteryMind';
+import IQArena from '../components/games/IQArena';
 
 const GAMES = [
+  {
+    id: 'mindbender',
+    title: 'MindBender',
+    description: 'Test your spatial and logic reasoning in this mind-bending sequence game.',
+    difficulty: 'medium',
+    plan: 'pro',
+    icon: (
+      <svg stroke="currentColor" fill="none" strokeWidth="2" viewBox="0 0 24 24" className="h-8 w-8 text-fuchsia-400">
+        <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
+      </svg>
+    ),
+    color: 'bg-fuchsia-500/20'
+  },
+  {
+    id: 'puzzlemaster',
+    title: 'PuzzleMaster',
+    description: 'Become the master of algorithmic puzzles and complex data mapping architectures.',
+    difficulty: 'hard',
+    plan: 'pro',
+    icon: (
+      <svg stroke="currentColor" fill="none" strokeWidth="2" viewBox="0 0 24 24" className="h-8 w-8 text-cyan-400">
+        <rect x="3" y="3" width="7" height="7"></rect>
+        <rect x="14" y="3" width="7" height="7"></rect>
+        <rect x="14" y="14" width="7" height="7"></rect>
+        <rect x="3" y="14" width="7" height="7"></rect>
+      </svg>
+    ),
+    color: 'bg-cyan-500/20'
+  },
+  {
+    id: 'code_and_clues',
+    title: 'Code & Clues',
+    description: 'Solve coding mysteries by finding the hidden bugs in legacy codebases.',
+    difficulty: 'medium',
+    plan: 'pro',
+    icon: (
+      <svg stroke="currentColor" fill="none" strokeWidth="2" viewBox="0 0 24 24" className="h-8 w-8 text-emerald-400">
+        <circle cx="11" cy="11" r="8"></circle>
+        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+      </svg>
+    ),
+    color: 'bg-emerald-500/20'
+  },
+  {
+    id: 'neuromaze',
+    title: 'NeuroMaze',
+    description: 'Navigate through complex logic gates and neural pathway puzzles.',
+    difficulty: 'hard',
+    plan: 'pro',
+    icon: (
+      <svg stroke="currentColor" fill="none" strokeWidth="2" viewBox="0 0 24 24" className="h-8 w-8 text-pink-500">
+        <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline>
+      </svg>
+    ),
+    color: 'bg-pink-500/20'
+  },
+  {
+    id: 'mysterymind',
+    title: 'MysteryMind',
+    description: 'Crack the ultimate encryption challenges and uncover hidden payloads.',
+    difficulty: 'hard',
+    plan: 'pro',
+    icon: (
+      <svg stroke="currentColor" fill="none" strokeWidth="2" viewBox="0 0 24 24" className="h-8 w-8 text-amber-500">
+        <path d="M21 2l-2 2m-7.61 7.61a5.5 5.5 0 1 1-7.778 7.778 5.5 5.5 0 0 1 7.777-7.777zm0 0L15.5 7.5m0 0l3 3L22 7l-3-3m-3.5 3.5L19 4"></path>
+      </svg>
+    ),
+    color: 'bg-amber-500/20'
+  },
+  {
+    id: 'iq_arena',
+    title: 'IQ Arena',
+    description: 'Compete in rapid-fire intelligence and abstract reasoning tests.',
+    difficulty: 'medium',
+    plan: 'pro',
+    icon: (
+      <svg stroke="currentColor" fill="none" strokeWidth="2" viewBox="0 0 24 24" className="h-8 w-8 text-blue-500">
+        <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+      </svg>
+    ),
+    color: 'bg-blue-500/20'
+  },
   {
     id: 'memory',
     title: 'Tech Memory Match',
@@ -261,6 +349,9 @@ const GamingBoardInterface = () => {
   const [isLightMode, setIsLightMode] = useState(false);
   const navigate = useNavigate();
 
+  const user = JSON.parse(localStorage.getItem('user') || '{}');
+  const userPlan = user.planType || 'Free Plan';
+
   const renderGame = () => {
     switch (activeGame) {
       case 'memory': return <MemoryMatch onBack={() => setActiveGame(null)} />;
@@ -282,7 +373,25 @@ const GamingBoardInterface = () => {
       case 'system_design': return <SystemDesignArchitect onBack={() => setActiveGame(null)} />;
       case 'crypto_breaker': return <CryptographyBreaker onBack={() => setActiveGame(null)} />;
       case 'vim_ninja': return <VimNinja onBack={() => setActiveGame(null)} />;
-      default: return null;
+      case 'mindbender': return <MindBender onBack={() => setActiveGame(null)} />;
+      case 'puzzlemaster': return <PuzzleMaster onBack={() => setActiveGame(null)} />;
+      case 'code_and_clues': return <CodeAndClues onBack={() => setActiveGame(null)} />;
+      case 'neuromaze': return <NeuroMaze onBack={() => setActiveGame(null)} />;
+      case 'mysterymind': return <MysteryMind onBack={() => setActiveGame(null)} />;
+      case 'iq_arena': return <IQArena onBack={() => setActiveGame(null)} />;
+      default: 
+        return (
+          <div className="flex flex-col items-center justify-center h-full text-center">
+            <h2 className="text-4xl font-bold text-white mb-4">Module Under Construction</h2>
+            <p className="text-slate-400 mb-8 max-w-md">The gameplay for this Pro module is currently being finalized. Check back soon!</p>
+            <button 
+              onClick={() => setActiveGame(null)}
+              className="px-6 py-3 bg-white/10 hover:bg-white/20 text-white rounded-full transition-colors"
+            >
+              Back to Modules
+            </button>
+          </div>
+        );
     }
   };
 
@@ -312,9 +421,15 @@ const GamingBoardInterface = () => {
     );
   }
 
-  const filteredGames = filter === 'all' 
+  const baseGames = filter === 'all' 
     ? GAMES 
     : GAMES.filter(g => g.difficulty === filter);
+
+  // Strictly filter out games that don't match the current user's plan
+  // If the user has Pro or Enterprise, show them the Pro games. Otherwise, Free games.
+  const isPremium = userPlan === 'Pro Plan' || userPlan === 'Enterprise Plan';
+  const planTag = isPremium ? 'pro' : 'free';
+  const filteredGames = baseGames.filter(g => (g.plan || 'free') === planTag);
 
   // Compute a safe index for rendering to prevent out-of-bounds crashes
   const safeIndex = currentIndex >= filteredGames.length ? 0 : currentIndex;
@@ -382,16 +497,25 @@ const GamingBoardInterface = () => {
           key={currentGame.id} // Forces re-render animation on change
           className="animate-in fade-in zoom-in duration-700 flex flex-col items-center"
         >
-          {/* Difficulty Badge */}
-          <div className={`mb-8 text-[10px] uppercase tracking-[0.4em] font-bold flex items-center gap-2 px-4 py-1.5 rounded-full border backdrop-blur-md ${
-            currentGame.difficulty === 'easy' ? 'bg-green-500/10 border-green-500/30 text-green-400' :
-            currentGame.difficulty === 'medium' ? 'bg-orange-500/10 border-orange-500/30 text-orange-400' : 'bg-red-500/10 border-red-500/30 text-red-400'
-          }`}>
-            <span className={`w-2 h-2 rounded-full shadow-[0_0_8px_currentColor] ${
-              currentGame.difficulty === 'easy' ? 'bg-green-400' :
-              currentGame.difficulty === 'medium' ? 'bg-orange-400' : 'bg-red-400'
-            }`}></span>
-            {currentGame.difficulty}
+          <div className="flex gap-4 items-center mb-8 justify-center">
+            {/* Difficulty Badge */}
+            <div className={`text-[10px] uppercase tracking-[0.4em] font-bold flex items-center gap-2 px-4 py-1.5 rounded-full border backdrop-blur-md ${
+              currentGame.difficulty === 'easy' ? 'bg-green-500/10 border-green-500/30 text-green-400' :
+              currentGame.difficulty === 'medium' ? 'bg-orange-500/10 border-orange-500/30 text-orange-400' : 'bg-red-500/10 border-red-500/30 text-red-400'
+            }`}>
+              <span className={`w-2 h-2 rounded-full shadow-[0_0_8px_currentColor] ${
+                currentGame.difficulty === 'easy' ? 'bg-green-400' :
+                currentGame.difficulty === 'medium' ? 'bg-orange-400' : 'bg-red-400'
+              }`}></span>
+              {currentGame.difficulty}
+            </div>
+
+            {/* Plan Badge */}
+            <div className={`text-[10px] uppercase tracking-[0.4em] font-bold flex items-center gap-2 px-4 py-1.5 rounded-full border backdrop-blur-md ${
+              (currentGame.plan || 'free') === 'pro' ? 'bg-gradient-to-r from-purple-500/20 to-indigo-500/20 border-purple-500/50 text-purple-300 shadow-[0_0_15px_rgba(168,85,247,0.3)]' : 'bg-slate-500/10 border-slate-500/30 text-slate-400'
+            }`}>
+              {(currentGame.plan || 'free') === 'pro' ? 'PRO PLAN' : 'FREE PLAN'}
+            </div>
           </div>
 
           {/* Title */}
@@ -406,7 +530,13 @@ const GamingBoardInterface = () => {
 
           {/* Play Button */}
           <button 
-            onClick={() => setActiveGame(currentGame.id)}
+            onClick={() => {
+              if ((currentGame.plan || 'free') === 'pro' && userPlan === 'Free Plan') {
+                alert('This module requires a Pro Plan or higher. Please navigate to Choose Plan to upgrade.');
+                return;
+              }
+              setActiveGame(currentGame.id);
+            }}
             className="group relative px-12 py-5 rounded-full border border-white/20 bg-white/5 backdrop-blur-md overflow-hidden transition-all duration-500 hover:border-white/50 hover:bg-white/10 hover:shadow-[0_0_40px_rgba(255,255,255,0.15)]"
           >
             {/* Glossy overlay effect */}

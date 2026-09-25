@@ -556,6 +556,16 @@ const Layout = ({ children, setToken, token }) => {
                     className="w-full text-left px-3 py-2.5 text-sm text-gray-200 hover:bg-[#343541] hover:text-white transition-colors flex items-center gap-3"
                     onClick={() => {
                       setIsProfileMenuOpen(false);
+                      navigate('/plans');
+                    }}
+                  >
+                    <svg stroke="currentColor" fill="none" strokeWidth="2" viewBox="0 0 24 24" strokeLinecap="round" strokeLinejoin="round" className="h-4 w-4"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path></svg>
+                    Choose Plan
+                  </button>
+                  <button 
+                    className="w-full text-left px-3 py-2.5 text-sm text-gray-200 hover:bg-[#343541] hover:text-white transition-colors flex items-center gap-3"
+                    onClick={() => {
+                      setIsProfileMenuOpen(false);
                       navigate('/profile');
                     }}
                   >

@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TestNova AI Presentation</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&display=swap');
+        
+        body {
+            font-family: 'Open Sans', sans-serif;
+            background-color: #f3f6f9;
+            margin: 0;
+            padding: 0;
+        }
+
+        .slide {
+            width: 1280px;
+            height: 720px;
+            background-color: #f3f6f9;
+            margin: 40px auto;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            page-break-after: always;
+        }
+
+        .slide-dark {
+            background-color: #17223b;
+            color: white;
+        }
+
+        .header-title {
+            color: #17223b;
+            font-weight: 700;
+            font-size: 2.75rem; /* 44px */
+            margin-bottom: 0.5rem;
+            padding-top: 50px;
+            padding-left: 60px;
+        }
+
+        .header-subtitle {
+            color: #64748b;
+            font-size: 1.25rem;
+            padding-left: 60px;
+            margin-bottom: 40px;
+        }
+
+        .content-area {
+            padding: 0 60px;
+        }
+
+        .card {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+            padding: 24px 30px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .card::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 8px;
+        }
+        
+        .card-blue::before { background-color: #3164b3; }
+        .card-green::before { background-color: #2e9f6c; }
+        .card-red::before { background-color: #d94b41; }
+        .card-darkblue::before { background-color: #17223b; }
+
+        .slide-footer {
+            position: absolute;
+            bottom: 30px;
+            left: 60px;
+            color: #94a3b8;
+            font-size: 12px;
+            text-transform: uppercase;
+        }
+
+        .feature-icon-wrapper {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 15px;
+            color: white;
+            font-size: 1.2rem;
+        }
+
+        @media print {
+            body { background: none; margin: 0; padding: 0; }
+            .slide { 
+                margin: 0; 
+                box-shadow: none; 
+                page-break-inside: avoid;
+                page-break-after: always;
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Slide 1: Title -->
+    <div class="slide slide-dark flex">
+        <div class="w-[60%] pl-16 pt-32 flex flex-col relative z-10">
+            <h1 class="text-[5rem] font-bold mb-4 tracking-tight">TESTNOVA AI</h1>
+            <h2 class="text-3xl font-light mb-2">Assessment & Learning Ecosystem</h2>
+            <p class="text-slate-400 text-xl mb-16">APSCHE • Team Project</p>
+
+            <div>
+                <h3 class="text-[2.2rem] font-semibold mb-6">Team members:-</h3>
+                <ul class="text-[1.35rem] space-y-2 leading-relaxed">
+                    <li>MALLELA SUGUNA (23MH1A05B0)</li>
+                    <li>SEELI NEHA SWAPNA (23MH1A05C9)</li>
+                    <li>KOTA HARISH (23MH1A05A4)</li>
+                    <li>GUDUPATI POSUKUMAR (23MH1A0591)</li>
+                </ul>
+            </div>
+        </div>
+        <div class="w-[40%] relative">
+             <img src="./assets/media_1790318967874.png" alt="TestNova AI Interface" class="absolute top-[20%] right-[-10%] w-[120%] max-w-none rounded-3xl shadow-2xl object-cover border-8 border-[#2a3754] rotate-[-5deg]">
+        </div>
+    </div>
+
+    <!-- Slide 2: Overview -->
+    <div class="slide">
+        <h1 class="header-title">Project Overview</h1>
+        <p class="header-subtitle">A comprehensive, AI-powered platform for education and technical evaluation</p>
+        
+        <div class="content-area flex gap-10 mt-12">
+            <div class="w-1/2 flex flex-col gap-6">
+                <div class="card card-blue">
+                    <h3 class="text-xl font-bold mb-3 text-[#17223b]">What is TestNova AI?</h3>
+                    <p class="text-slate-700 leading-relaxed text-[15px]">A robust, full-stack educational ecosystem designed to evaluate and train developers. It seamlessly combines an AI-powered Chatbot, an integrated Live Coding Environment, structured Quizzes, and a highly gamified "Gaming Board".</p>
+                </div>
+                <div class="card card-green">
+                    <h3 class="text-xl font-bold mb-3 text-[#17223b]">Project Approach</h3>
+                    <p class="text-slate-700 leading-relaxed text-[15px]">A team-developed MERN stack application applying advanced software architectures, including Role-Based Access Control (RBAC), generative AI API integration, and real-time code execution.</p>
+                </div>
+                <div class="card card-red">
+                    <h3 class="text-xl font-bold mb-3 text-[#17223b]">Target Experience</h3>
+                    <p class="text-slate-700 leading-relaxed text-[15px]">Seamless navigation • Instant AI feedback • Interactive learning • Tiered premium access • Beautiful Glassmorphism aesthetics</p>
+                </div>
+            </div>
+            <div class="w-1/2 h-full pr-4 pt-16 relative perspective-1000">
+                 <!-- Login Image in background (left, higher, tilted right) -->
+                 <img src="./assets/media_1790329334627.png" class="absolute top-0 left-4 w-[60%] h-[400px] object-cover object-top rounded-[2.5rem] shadow-2xl border-[12px] border-[#1e293b] z-10 rotate-[12deg]" alt="Login Screen">
+                 
+                 <!-- Chat Interface in foreground (right, lower, tilted right) -->
+                 <img src="./assets/media_1790329364613.jpg" class="absolute top-[80px] right-2 w-[60%] h-[450px] object-cover object-top rounded-[2.5rem] shadow-2xl border-[12px] border-[#1e293b] z-20 rotate-[12deg]" alt="Chat Interface">
+            </div>
+        </div>
+        <div class="slide-footer">TESTNOVA AI • APSCHE PROJECT • 2</div>
+    </div>
+
+    <!-- Slide 3: Problem Statement -->
+    <div class="slide">
+        <h1 class="header-title mt-4">Problem Statement & Objectives</h1>
+        
+        <div class="content-area flex flex-col gap-8 mt-12 w-[85%] mx-auto">
+            <div class="card card-red p-8">
+                <h3 class="text-[22px] font-bold mb-4 text-[#17223b]">Problem Statement</h3>
+                <p class="text-slate-700 text-[16px] leading-relaxed">
+                    Modern technical education is deeply fragmented. Students, developers, and recruiters typically have to use separate platforms for chatting with AI, solving coding challenges, taking quizzes, and testing logical reasoning. This fragmentation causes friction, and standard testing methods are often dry and anxiety-inducing. There is a strong need for a centralized, gamified, AI-integrated platform that combines learning, practice, and assessment under one cohesive, user-friendly system.
+                </p>
+            </div>
+            <div class="card card-blue p-8">
+                <h3 class="text-[22px] font-bold mb-4 text-[#17223b]">Objectives</h3>
+                <ul class="text-slate-700 text-[16px] space-y-3 list-disc pl-5">
+                    <li>Build a centralized, all-in-one educational platform spanning traditional and modern assessment methods.</li>
+                    <li>Integrate Generative AI directly into the learning and assessment process.</li>
+                    <li>Provide multiple evaluation methods: Live Coding Arenas, Quizzes, Assignments, and Logic Mini-games.</li>
+                    <li>Implement a robust tiered subscription system (Free, Pro, Enterprise) with strict administrative oversight.</li>
+                </ul>
+            </div>
+        </div>
+        <div class="slide-footer">TESTNOVA AI • APSCHE PROJECT • 3</div>
+    </div>
+
+    <!-- Slide 4: Key Features -->
+    <div class="slide">
+        <h1 class="header-title">Key Features</h1>
+        <p class="header-subtitle">Core functionality of the TestNova AI application</p>
+        
+        <div class="content-area grid grid-cols-4 gap-6 mt-8">
+            <div class="card card-blue flex flex-col items-start !p-6">
+                <div class="feature-icon-wrapper bg-[#3164b3]"><i class="fas fa-robot"></i></div>
+                <h3 class="text-[19px] font-bold mb-2 text-[#17223b]">AI Chat Interface</h3>
+                <p class="text-[13px] text-slate-600 leading-relaxed">Integrated AI assistant capable of answering technical questions and guiding users.</p>
+            </div>
+            <div class="card card-green flex flex-col items-start !p-6">
+                <div class="feature-icon-wrapper bg-[#2e9f6c]"><i class="fas fa-code"></i></div>
+                <h3 class="text-[19px] font-bold mb-2 text-[#17223b]">Interactive Coding</h3>
+                <p class="text-[13px] text-slate-600 leading-relaxed">Built-in IDE environment allowing users to write, test, and execute code directly.</p>
+            </div>
+            <div class="card card-red flex flex-col items-start !p-6">
+                <div class="feature-icon-wrapper bg-[#d94b41]"><i class="fas fa-tasks"></i></div>
+                <h3 class="text-[19px] font-bold mb-2 text-[#17223b]">Quizzes</h3>
+                <p class="text-[13px] text-slate-600 leading-relaxed">Structured environments for timed multiple-choice assessments.</p>
+            </div>
+            <div class="card card-darkblue flex flex-col items-start !p-6">
+                <div class="feature-icon-wrapper bg-[#17223b]"><i class="fas fa-gamepad"></i></div>
+                <h3 class="text-[19px] font-bold mb-2 text-[#17223b]">Gamified Board</h3>
+                <p class="text-[13px] text-slate-600 leading-relaxed">Interactive logic mini-games spanning System Design, Cryptography, and Memory.</p>
+            </div>
+            <div class="card card-blue flex flex-col items-start !p-6">
+                <div class="feature-icon-wrapper bg-[#3164b3]"><i class="fas fa-crown"></i></div>
+                <h3 class="text-[19px] font-bold mb-2 text-[#17223b]">Subscriptions</h3>
+                <p class="text-[13px] text-slate-600 leading-relaxed">Tier system locking premium modules behind Pro/Enterprise subscriptions.</p>
+            </div>
+            <div class="card card-green flex flex-col items-start !p-6">
+                <div class="feature-icon-wrapper bg-[#2e9f6c]"><i class="fas fa-shield-alt"></i></div>
+                <h3 class="text-[19px] font-bold mb-2 text-[#17223b]">Admin Dashboard</h3>
+                <p class="text-[13px] text-slate-600 leading-relaxed">Control panel to manage users, override plans, and ban accounts.</p>
+            </div>
+            <div class="card card-red flex flex-col items-start !p-6">
+                <div class="feature-icon-wrapper bg-[#d94b41]"><i class="fas fa-chart-line"></i></div>
+                <h3 class="text-[19px] font-bold mb-2 text-[#17223b]">Analytics</h3>
+                <p class="text-[13px] text-slate-600 leading-relaxed">Detailed tracking of user scores, completion times, and difficulty levels.</p>
+            </div>
+            <div class="card card-darkblue flex flex-col items-start !p-6">
+                <div class="feature-icon-wrapper bg-[#17223b]"><i class="fas fa-mobile-alt"></i></div>
+                <h3 class="text-[19px] font-bold mb-2 text-[#17223b]">Responsive UI</h3>
+                <p class="text-[13px] text-slate-600 leading-relaxed">Clean, adaptive layout across all devices utilizing modern web aesthetics.</p>
+            </div>
+        </div>
+        <div class="slide-footer">TESTNOVA AI • APSCHE PROJECT • 4</div>
+    </div>
+
+    <!-- Slide 5: System Modules -->
+    <div class="slide">
+        <h1 class="header-title">System Modules</h1>
+        <p class="header-subtitle">Organized around the main learning workflow</p>
+        
+        <div class="content-area flex flex-col justify-center h-[400px] mt-10">
+            <div class="flex items-center justify-between gap-4">
+                
+                <div class="card card-blue flex-1 h-48 flex flex-col justify-start items-start !p-6">
+                    <h3 class="text-lg font-bold mb-4 text-[#17223b]">USER</h3>
+                    <p class="text-[13px] text-slate-600 leading-relaxed">Login • Profile •<br>Access</p>
+                </div>
+                <div class="text-3xl text-slate-400"><i class="fas fa-arrow-right"></i></div>
+                
+                <div class="card card-green flex-1 h-48 flex flex-col justify-start items-start !p-6">
+                    <h3 class="text-lg font-bold mb-4 text-[#17223b]">LEARN</h3>
+                    <p class="text-[13px] text-slate-600 leading-relaxed">AI Chat • Code •<br>Explore</p>
+                </div>
+                <div class="text-3xl text-slate-400"><i class="fas fa-arrow-right"></i></div>
+                
+                <div class="card card-red flex-1 h-48 flex flex-col justify-start items-start !p-6">
+                    <h3 class="text-lg font-bold mb-4 text-[#17223b]">ASSESS</h3>
+                    <p class="text-[13px] text-slate-600 leading-relaxed">Quizzes • Submit •<br>Logic Games</p>
+                </div>
+                <div class="text-3xl text-slate-400"><i class="fas fa-arrow-right"></i></div>
+
+                <div class="card card-blue flex-1 h-48 flex flex-col justify-start items-start !p-6">
+                    <h3 class="text-lg font-bold mb-4 text-[#17223b]">RESULTS</h3>
+                    <p class="text-[13px] text-slate-600 leading-relaxed">Score Tracker •<br>Badges</p>
+                </div>
+                <div class="text-3xl text-slate-400"><i class="fas fa-arrow-right"></i></div>
+
+                <div class="card card-green flex-1 h-48 flex flex-col justify-start items-start !p-6">
+                    <h3 class="text-lg font-bold mb-4 text-[#17223b]">ADMIN</h3>
+                    <p class="text-[13px] text-slate-600 leading-relaxed">Management •<br>Updates</p>
+                </div>
+            </div>
+            
+            <div class="text-center mt-16 text-2xl font-bold text-[#17223b]">
+                Register <span class="mx-3">→</span> Subscribe <span class="mx-3">→</span> Learn <span class="mx-3">→</span> Assess <span class="mx-3">→</span> Track
+            </div>
+        </div>
+        <div class="slide-footer">TESTNOVA AI • APSCHE PROJECT • 5</div>
+    </div>
+
+    <!-- Slide 6: Tech Stack -->
+    <div class="slide">
+        <h1 class="header-title">Technology Stack</h1>
+        <p class="header-subtitle">The MERN-based stack powering TestNova AI</p>
+        
+        <div class="content-area grid grid-cols-2 gap-x-12 gap-y-8 mt-12 w-[90%] mx-auto">
+            
+            <div class="card card-blue flex items-center justify-between !py-6">
+                <div>
+                    <h3 class="text-[20px] font-bold mb-1 text-[#17223b]">FRONTEND</h3>
+                    <p class="text-slate-600 text-sm">React (Vite), HTML5, Tailwind CSS3, Framer Motion</p>
+                </div>
+                <div class="bg-blue-500 text-white w-[50px] h-[50px] flex items-center justify-center rounded-full text-2xl"><i class="fab fa-react"></i></div>
+            </div>
+
+            <div class="card card-green flex items-center justify-between !py-6">
+                <div>
+                    <h3 class="text-[20px] font-bold mb-1 text-[#17223b]">BACKEND</h3>
+                    <p class="text-slate-600 text-sm">Node.js, Express.js, REST APIs</p>
+                </div>
+                <div class="bg-green-500 text-white w-[50px] h-[50px] flex items-center justify-center rounded-full text-2xl"><i class="fab fa-node-js"></i></div>
+            </div>
+
+            <div class="card card-red flex items-center justify-between !py-6">
+                <div>
+                    <h3 class="text-[20px] font-bold mb-1 text-[#17223b]">DATABASE</h3>
+                    <p class="text-slate-600 text-sm">MongoDB (Atlas), Mongoose ODM</p>
+                </div>
+                <div class="bg-red-500 text-white w-[50px] h-[50px] flex items-center justify-center rounded-full text-2xl"><i class="fas fa-database"></i></div>
+            </div>
+
+            <div class="card card-blue flex items-center justify-between !py-6">
+                <div>
+                    <h3 class="text-[20px] font-bold mb-1 text-[#17223b]">AI & EXECUTION</h3>
+                    <p class="text-slate-600 text-sm">Generative AI APIs, Remote Code Execution (Wandbox)</p>
+                </div>
+                <div class="bg-blue-500 text-white w-[50px] h-[50px] flex items-center justify-center rounded-full text-2xl"><i class="fas fa-brain"></i></div>
+            </div>
+
+            <div class="card card-darkblue flex items-center justify-between !py-6">
+                <div>
+                    <h3 class="text-[20px] font-bold mb-1 text-[#17223b]">DEPLOYMENT / TOOLS</h3>
+                    <p class="text-slate-600 text-sm">VS Code, Git & GitHub</p>
+                </div>
+                <div class="bg-[#17223b] text-white w-[50px] h-[50px] flex items-center justify-center rounded-full text-2xl"><i class="fas fa-wrench"></i></div>
+            </div>
+
+            <div class="card card-yellow flex items-center justify-between !py-6">
+                <div>
+                    <h3 class="text-[20px] font-bold mb-1 text-[#17223b]">SECURITY</h3>
+                    <p class="text-slate-600 text-sm">Password Hashing (bcrypt) & Secure Authentication (JWT)</p>
+                </div>
+                <div class="bg-yellow-500 text-white w-[50px] h-[50px] flex items-center justify-center rounded-full text-2xl"><i class="fas fa-lock"></i></div>
+            </div>
+
+        </div>
+        <div class="slide-footer">TESTNOVA AI • APSCHE PROJECT • 6</div>
+    </div>
+    
+    <!-- Slide 7: User Journey -->
+    <div class="slide">
+        <h1 class="header-title">User Journey</h1>
+        <p class="header-subtitle">End-to-end learning and assessment flow</p>
+        
+        <div class="content-area mt-12">
+            
+            <div class="flex items-center gap-2">
+                <div class="bg-white rounded-xl shadow border border-slate-100 flex-1 h-28 flex items-center justify-center text-center font-semibold text-[#17223b] text-sm">Open TestNova</div>
+                <div class="text-2xl text-blue-500"><i class="fas fa-arrow-right"></i></div>
+                <div class="bg-white rounded-xl shadow border border-slate-100 flex-1 h-28 flex items-center justify-center text-center font-semibold text-[#17223b] text-sm">Login / Register</div>
+                <div class="text-2xl text-blue-500"><i class="fas fa-arrow-right"></i></div>
+                <div class="bg-white rounded-xl shadow border border-slate-100 flex-1 h-28 flex items-center justify-center text-center font-semibold text-[#17223b] text-sm">Choose Path (Code/Quiz)</div>
+                <div class="text-2xl text-blue-500"><i class="fas fa-arrow-right"></i></div>
+                <div class="bg-white rounded-xl shadow border border-slate-100 flex-1 h-28 flex items-center justify-center text-center font-semibold text-[#17223b] text-sm">Complete Challenge</div>
+                <div class="text-2xl text-blue-500"><i class="fas fa-arrow-right"></i></div>
+                <div class="bg-white rounded-xl shadow border border-slate-100 flex-1 h-28 flex items-center justify-center text-center font-semibold text-[#17223b] text-sm">View Analytics</div>
+            </div>
+
+            <div class="mt-16">
+                <h2 class="text-3xl font-bold text-[#17223b] mb-8">Admin / Management Flow <span class="text-slate-400 font-normal text-2xl">(Perform CRUD operations)</span></h2>
+                
+                <div class="space-y-4 text-lg text-[#17223b]">
+                    <p><strong class="font-bold text-[20px]">Create User →</strong> Register new accounts with specific access tiers</p>
+                    <p><strong class="font-bold text-[20px]">Read Analytics →</strong> View user performance, scores, and platform usage metrics</p>
+                    <p><strong class="font-bold text-[20px]">Update Subscription →</strong> Upgrade users to Pro or Enterprise plans</p>
+                    <p><strong class="font-bold text-[20px]">Delete User →</strong> Remove unwanted accounts or ban malicious users</p>
+                </div>
+            </div>
+
+        </div>
+        <div class="slide-footer">TESTNOVA AI • APSCHE PROJECT • 7</div>
+    </div>
+
+    <!-- Slide 8: Testing -->
+    <div class="slide">
+        <h1 class="header-title">Testing & Results</h1>
+        <p class="header-subtitle">Focus on reliability of the main user journey</p>
+        
+        <div class="content-area grid grid-cols-2 gap-8 mt-12 w-[90%] mx-auto">
+            
+            <div class="card card-blue h-[180px]">
+                <h3 class="text-[20px] font-bold mb-3 text-[#17223b]">Integration Testing</h3>
+                <p class="text-slate-600">Ensured seamless communication between the Node.js backend, MongoDB database, the AI APIs, and the remote code execution environments.</p>
+            </div>
+            
+            <div class="card card-green h-[180px]">
+                <h3 class="text-[20px] font-bold mb-3 text-[#17223b]">Functional & Security Testing</h3>
+                <p class="text-slate-600">Validated JWT token expiration, tier-based route protection, game loop integrity, and deeply secured admin endpoints.</p>
+            </div>
+            
+            <div class="card card-red h-[180px]">
+                <h3 class="text-[20px] font-bold mb-3 text-[#17223b]">UI & Responsive Testing</h3>
+                <p class="text-slate-600">Verified the glassmorphic aesthetics, fluid animations, dark mode integrations, and responsive behavior across mobile and desktop.</p>
+            </div>
+            
+            <div class="card card-darkblue h-[180px]">
+                <h3 class="text-[20px] font-bold mb-3 text-[#17223b]">Result</h3>
+                <p class="text-slate-600">A massive, cohesive learning ecosystem that successfully merges traditional testing, AI assistance, and modern gamification into one stable platform.</p>
+            </div>
+
+        </div>
+        <div class="slide-footer">TESTNOVA AI • APSCHE PROJECT • 8</div>
+    </div>
+
+    <!-- Slide 9: Enhancements -->
+    <div class="slide">
+        <h1 class="header-title">Future Enhancements</h1>
+        <p class="header-subtitle">Potential next steps for TestNova AI</p>
+        
+        <div class="content-area grid grid-cols-2 gap-6 mt-10 w-[90%] mx-auto">
+            
+            <div class="card card-blue">
+                <h3 class="text-[18px] font-bold mb-2 text-[#17223b]">AI Code Auto-grading</h3>
+                <p class="text-slate-500 text-sm">Enhancing the AI to automatically grade unstructured assignments and provide line-by-line feedback.</p>
+            </div>
+            
+            <div class="card card-green">
+                <h3 class="text-[18px] font-bold mb-2 text-[#17223b]">Multiplayer Battles</h3>
+                <p class="text-slate-500 text-sm">Allowing developers to compete in real-time coding sprints on the platform.</p>
+            </div>
+            
+            <div class="card card-red">
+                <h3 class="text-[18px] font-bold mb-2 text-[#17223b]">Payment Integration</h3>
+                <p class="text-slate-500 text-sm">Implementing Stripe/Razorpay for automated, seamless Pro/Enterprise plan upgrades.</p>
+            </div>
+            
+            <div class="card card-blue">
+                <h3 class="text-[18px] font-bold mb-2 text-[#17223b]">Community Marketplace</h3>
+                <p class="text-slate-500 text-sm">Allowing educators and users to create and share their own custom quizzes and mini-games.</p>
+            </div>
+            
+            <div class="card card-green">
+                <h3 class="text-[18px] font-bold mb-2 text-[#17223b]">Voice AI Interaction</h3>
+                <p class="text-slate-500 text-sm">Adding voice-to-text integration for hands-free AI tutoring and mock interviews.</p>
+            </div>
+            
+            <div class="card card-red">
+                <h3 class="text-[18px] font-bold mb-2 text-[#17223b]">Advanced Analytics</h3>
+                <p class="text-slate-500 text-sm">Detailed graphical dashboards mapping cognitive growth and coding improvement over time.</p>
+            </div>
+
+        </div>
+        <div class="slide-footer">TESTNOVA AI • APSCHE PROJECT • 9</div>
+    </div>
+
+    <!-- Slide 10: Conclusion -->
+    <div class="slide slide-dark flex flex-col pt-16 relative">
+        <h1 class="text-5xl font-bold ml-16 mb-12">Conclusion</h1>
+        
+        <div class="bg-white rounded-3xl mx-16 p-12 text-[#17223b] shadow-xl">
+            <h3 class="text-2xl font-bold mb-6">What We Achieved</h3>
+            <ul class="space-y-4 text-[17px] pl-5 list-none">
+                <li class="flex items-start">
+                    <span class="mr-3 text-lg">➢</span>
+                    <p><strong>TestNova AI</strong> is a highly ambitious, comprehensive educational tool that solves the fragmentation problem in modern technical learning.</p>
+                </li>
+                <li class="flex items-start">
+                    <span class="mr-3 text-lg">➢</span>
+                    <p>By combining AI chatbots, live coding environments, structured quizzes, and gamified challenges into one stunning interface, we created a truly next-generation application.</p>
+                </li>
+                <li class="flex items-start">
+                    <span class="mr-3 text-lg">➢</span>
+                    <p>The project helped our team master complex frontend state sharing, secure full-stack architecture, AI API integration, and collaborative software engineering.</p>
+                </li>
+            </ul>
+        </div>
+        
+        <div class="absolute bottom-32 w-full text-center">
+            <h2 class="text-3xl font-semibold">A strong foundation for the future of interactive technical education.</h2>
+        </div>
+
+        <div class="slide-footer !text-slate-400">TESTNOVA AI • APSCHE PROJECT • 10</div>
+    </div>
+
+    <!-- Slide 11: Thank You -->
+    <div class="slide flex flex-col justify-center items-center bg-[#f3f6f9]">
+        <h1 class="text-[5rem] font-bold text-[#17223b] mb-4 tracking-tight">THANK YOU</h1>
+        <p class="text-2xl text-slate-500 font-light">Questions & Discussion</p>
+        <div class="slide-footer">TESTNOVA AI • APSCHE PROJECT • 11</div>
+    </div>
+
+</body>
+</html>

@@ -9,6 +9,8 @@ import GamingBoardInterface from './pages/GamingBoardInterface';
 import Profile from './pages/Profile';
 import GameHistory from './pages/GameHistory';
 import GameResultDetails from './pages/GameResultDetails';
+import AdminDashboard from './pages/AdminDashboard';
+import Plans from './pages/Plans';
 import Layout from './components/Layout';
 import ErrorBoundary from './components/ErrorBoundary';
 import axios from 'axios';
@@ -132,6 +134,17 @@ function App() {
               </Layout>
             ) : <Navigate to="/login" />
           } />
+
+          <Route path="/plans" element={
+            token ? (
+              <Layout setToken={setToken} token={token}>
+                <Plans />
+              </Layout>
+            ) : <Navigate to="/login" />
+          } />
+
+          {/* Admin Route without Layout */}
+          <Route path="/admin" element={<AdminDashboard />} />
 
           <Route path="*" element={<Navigate to="/" />} />
         </Routes>

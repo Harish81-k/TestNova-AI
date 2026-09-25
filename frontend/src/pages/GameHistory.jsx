@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
+const PRO_GAMES = ['MindBender', 'PuzzleMaster', 'Code & Clues', 'NeuroMaze', 'MysteryMind', 'IQ Arena'];
+
 const GameHistory = () => {
   const [history, setHistory] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -114,6 +116,12 @@ const GameHistory = () => {
                         </span>
                       </>
                     )}
+                    <span className="text-white/20">•</span>
+                    <span className={`text-[10px] px-2 py-0.5 rounded-full border tracking-[0.2em] font-bold uppercase ${
+                      PRO_GAMES.includes(game.gameName) ? 'bg-gradient-to-r from-purple-500/20 to-indigo-500/20 border-purple-500/50 text-purple-300 shadow-[0_0_15px_rgba(168,85,247,0.3)]' : 'bg-slate-500/10 border-slate-500/30 text-slate-400'
+                    }`}>
+                      {PRO_GAMES.includes(game.gameName) ? 'PRO PLAN' : 'FREE PLAN'}
+                    </span>
                   </div>
                   <h2 className="text-2xl md:text-3xl font-bold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-white to-gray-300 group-hover:to-blue-400 transition-all duration-300 drop-shadow-md">
                     {game.gameName}

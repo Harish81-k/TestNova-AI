@@ -1,6 +1,7 @@
 const jwt = require('jsonwebtoken');
 const { OAuth2Client } = require('google-auth-library');
 const User = require('../models/User');
+const BannedUser = require('../models/BannedUser');
 
 const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID || "290960187669-jtj6rvhjs6pos6eo19fioo4r7adrmh7h.apps.googleusercontent.com");
 
@@ -19,6 +20,11 @@ const signup = async (req, res) => {
 
     if (userExists) {
       return res.status(400).json({ error: 'User already exists' });
+    }
+
+    const isBanned = await BannedUser.findOne({ identifier: username });
+    if (isBanned) {
+      return res.status(403).json({ error: 'This account has been banned' });
     }
 
     const user = await User.create({
@@ -41,6 +47,11 @@ const signup = async (req, res) => {
 const login = async (req, res) => {
   try {
     const { username, password } = req.body;
+
+    const isBanned = await BannedUser.findOne({ identifier: username });
+    if (isBanned) {
+      return res.status(403).json({ error: 'This account has been banned' });
+    }
 
     const user = await User.findOne({ username });
 
@@ -73,6 +84,11 @@ const googleLogin = async (req, res) => {
     const email = payload.email;
     const name = payload.name;
     
+    const isBanned = await BannedUser.findOne({ identifier: email });
+    if (isBanned) {
+      return res.status(403).json({ error: 'This account has been banned' });
+    }
+
     let user = await User.findOne({ email });
     
     if (!user) {

@@ -31,7 +31,9 @@ const updateUserProfile = async (req, res) => {
         user.password = req.body.password;
       }
 
+      console.log('Saving user to DB...');
       const updatedUser = await user.save();
+      console.log('User saved successfully, sending response...');
 
       res.json({
         _id: updatedUser._id,
@@ -46,6 +48,7 @@ const updateUserProfile = async (req, res) => {
       res.status(404).json({ message: 'User not found' });
     }
   } catch (error) {
+    console.error('Error saving user profile:', error);
     res.status(500).json({ error: error.message });
   }
 };

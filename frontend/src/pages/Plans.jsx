@@ -6,35 +6,79 @@ const Plans = () => {
   const [loadingPlan, setLoadingPlan] = useState(null);
   const [successMsg, setSuccessMsg] = useState('');
 
-  const handleSelectPlan = async (planType) => {
+  const handleSelectPlan = async (planType, planPriceStr) => {
     setLoadingPlan(planType);
     setSuccessMsg('');
     try {
-      // Get user ID from local storage (we assume it is stored in 'user' object)
       const userStr = localStorage.getItem('user');
-      if (userStr) {
-        const user = JSON.parse(userStr);
-        // Note: the admin endpoint updates plans, but normally a user endpoint should update their own plan.
-        // We will just show a simulation or call a user endpoint if it exists.
-        // Assuming we have a PUT /api/users/profile or similar.
-        const token = localStorage.getItem('access_token');
+      if (!userStr) {
+        alert("User not found. Please log in again.");
+        setLoadingPlan(null);
+        return;
+      }
+
+      const user = JSON.parse(userStr);
+      const token = localStorage.getItem('access_token');
+      const numericPrice = parseInt(planPriceStr.replace('$', '')) || 0;
+
+      const updatePlanInDB = async () => {
         await axios.put('/users/profile', { planType }, {
           headers: { Authorization: `Bearer ${token}` }
         });
-        
-        // Update local storage user
         user.planType = planType;
         localStorage.setItem('user', JSON.stringify(user));
-        
         setSuccessMsg(`Successfully upgraded to ${planType}!`);
+        setLoadingPlan(null);
+      };
+
+      if (numericPrice > 0 && window.Razorpay) {
+        // Fetch order from backend
+        const orderRes = await axios.post('/payment/create-order', {
+          amount: numericPrice,
+          currency: 'USD'
+        }, {
+          headers: { Authorization: `Bearer ${token}` }
+        });
+
+        const options = {
+          key: import.meta.env.VITE_RAZORPAY_KEY_ID || 'rzp_test_placeholder',
+          amount: orderRes.data.amount,
+          currency: orderRes.data.currency,
+          name: 'TestNova AI',
+          description: `${planType} Subscription`,
+          order_id: orderRes.data.id,
+          handler: function (response) {
+            updatePlanInDB();
+          },
+          prefill: {
+            name: user.username || 'User',
+            email: user.email || ''
+          },
+          theme: {
+            color: '#8b5cf6'
+          },
+          modal: {
+            ondismiss: function() {
+              setLoadingPlan(null);
+            }
+          }
+        };
+
+        const rzp1 = new window.Razorpay(options);
+        rzp1.on('payment.failed', function (response){
+          alert("Payment failed: " + response.error.description);
+          setLoadingPlan(null);
+        });
+        rzp1.open();
       } else {
-        alert("User not found. Please log in again.");
+        // Free plan or Razorpay not loaded
+        await updatePlanInDB();
       }
     } catch (err) {
       console.error(err);
-      alert('Failed to update plan. Make sure the backend endpoint exists.');
+      alert('Failed to process payment or update plan.');
+      setLoadingPlan(null);
     }
-    setLoadingPlan(null);
   };
 
   const plans = [
@@ -135,7 +179,7 @@ const Plans = () => {
               </ul>
               
               <button
-                onClick={() => handleSelectPlan(plan.name)}
+                onClick={() => handleSelectPlan(plan.name, plan.price)}
                 disabled={loadingPlan !== null}
                 className={`w-full py-3.5 rounded-xl font-bold transition-all ${
                   plan.popular 

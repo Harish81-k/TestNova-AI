@@ -83,7 +83,7 @@ const Plans = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-[#050505] text-slate-200 py-12 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
+    <div className="min-h-screen bg-[#050505] text-slate-200 py-12 px-4 sm:px-6 lg:px-8 relative overflow-x-hidden">
       {/* Background glow effects */}
       <div className="absolute top-0 left-1/4 w-[800px] h-[500px] bg-purple-600/10 rounded-full blur-[150px] pointer-events-none"></div>
       

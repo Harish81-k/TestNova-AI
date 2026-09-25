@@ -31,45 +31,55 @@ const Plans = () => {
         setLoadingPlan(null);
       };
 
-      if (numericPrice > 0 && window.Razorpay) {
-        // Fetch order from backend
-        const orderRes = await axios.post('/payment/create-order', {
-          amount: numericPrice,
-          currency: 'USD'
-        }, {
-          headers: { Authorization: `Bearer ${token}` }
-        });
+      if (numericPrice > 0) {
+        const razorpayKey = import.meta.env.VITE_RAZORPAY_KEY_ID;
 
-        const options = {
-          key: import.meta.env.VITE_RAZORPAY_KEY_ID || 'rzp_test_placeholder',
-          amount: orderRes.data.amount,
-          currency: orderRes.data.currency,
-          name: 'TestNova AI',
-          description: `${planType} Subscription`,
-          order_id: orderRes.data.id,
-          handler: function (response) {
-            updatePlanInDB();
-          },
-          prefill: {
-            name: user.username || 'User',
-            email: user.email || ''
-          },
-          theme: {
-            color: '#8b5cf6'
-          },
-          modal: {
-            ondismiss: function() {
-              setLoadingPlan(null);
+        if (razorpayKey && window.Razorpay) {
+          // Fetch order from backend
+          const orderRes = await axios.post('/payment/create-order', {
+            amount: numericPrice,
+            currency: 'USD'
+          }, {
+            headers: { Authorization: `Bearer ${token}` }
+          });
+
+          const options = {
+            key: razorpayKey,
+            amount: orderRes.data.amount,
+            currency: orderRes.data.currency,
+            name: 'TestNova AI',
+            description: `${planType} Subscription`,
+            order_id: orderRes.data.id,
+            handler: function (response) {
+              updatePlanInDB();
+            },
+            prefill: {
+              name: user.username || 'User',
+              email: user.email || ''
+            },
+            theme: {
+              color: '#8b5cf6'
+            },
+            modal: {
+              ondismiss: function() {
+                setLoadingPlan(null);
+              }
             }
-          }
-        };
+          };
 
-        const rzp1 = new window.Razorpay(options);
-        rzp1.on('payment.failed', function (response){
-          alert("Payment failed: " + response.error.description);
-          setLoadingPlan(null);
-        });
-        rzp1.open();
+          const rzp1 = new window.Razorpay(options);
+          rzp1.on('payment.failed', function (response){
+            alert("Payment failed: " + response.error.description);
+            setLoadingPlan(null);
+          });
+          rzp1.open();
+        } else {
+          // Simulated payment flow for demo (if keys are not configured in Vercel)
+          setLoadingPlan(`Simulating Payment for ${planType}...`);
+          setTimeout(() => {
+            updatePlanInDB();
+          }, 1500);
+        }
       } else {
         // Free plan or Razorpay not loaded
         await updatePlanInDB();

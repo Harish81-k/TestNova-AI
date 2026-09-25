@@ -3,11 +3,11 @@ import { FiCheck, FiStar, FiZap, FiShield } from 'react-icons/fi';
 import axios from 'axios';
 
 const Plans = () => {
-  const [loading, setLoading] = useState(false);
+  const [loadingPlan, setLoadingPlan] = useState(null);
   const [successMsg, setSuccessMsg] = useState('');
 
   const handleSelectPlan = async (planType) => {
-    setLoading(true);
+    setLoadingPlan(planType);
     setSuccessMsg('');
     try {
       // Get user ID from local storage (we assume it is stored in 'user' object)
@@ -34,7 +34,7 @@ const Plans = () => {
       console.error(err);
       alert('Failed to update plan. Make sure the backend endpoint exists.');
     }
-    setLoading(false);
+    setLoadingPlan(null);
   };
 
   const plans = [
@@ -136,14 +136,14 @@ const Plans = () => {
               
               <button
                 onClick={() => handleSelectPlan(plan.name)}
-                disabled={loading}
+                disabled={loadingPlan !== null}
                 className={`w-full py-3.5 rounded-xl font-bold transition-all ${
                   plan.popular 
                     ? 'bg-gradient-to-r from-purple-500 to-indigo-600 hover:opacity-90 text-white shadow-lg shadow-purple-500/25' 
                     : 'bg-white/5 hover:bg-white/10 text-white border border-white/10'
                 } disabled:opacity-50`}
               >
-                {loading ? 'Processing...' : `Select ${plan.name}`}
+                {loadingPlan === plan.name ? 'Processing...' : `Select ${plan.name}`}
               </button>
             </div>
           ))}
